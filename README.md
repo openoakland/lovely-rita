@@ -1,4 +1,4 @@
-# Lovely-Rita: Insigths from Oakland Citation Data
+# Lovely-Rita: Insights from Oakland Citation Data
 
 Detailed slides to share here: https://goo.gl/XiUvkB
 
