@@ -135,7 +135,8 @@ column_maps = [{'street': 'Street',
                 '[delivery_point_check_digit]': 'Delivery Point Check Digit',
                 '[last_line]': 'Last Line',
                 '[delivery_point_barcode]': 'Delivery Point Barcode'
-                }
+               }
+              ]
 
 columns_to_drop = ["Addressee",
                    "Delivery Line 2",
