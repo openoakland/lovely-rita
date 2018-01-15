@@ -1,3 +1,14 @@
+Functions
+=========
+1. Scrape geolocations from text addresses [lovely-rita-geoscrape]
+2. Impute missing data (times, etc., ...) [Lovely-rita-eda]
+
+Analyses
+========
+1. Number of citations per zip code
+2. Time-series, number of citations
+3. Type of violation by zip code
+
 Lovely-Rita: Insights from Oakland Citation Data
 ================================================
 
