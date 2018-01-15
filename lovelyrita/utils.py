@@ -44,7 +44,8 @@ def get_column_report(df):
         pct_nan = 100. * nans / df.shape[0]
         column_report.append([column, df[column].dtype, len(unique), sample, nans, pct_nan])
 
-    columns=["Column Name", "Data Type", "Unique Count", "Sample Value", "NaNs", "% NaN"]
+    columns = ["Column Name", "Data Type", "Unique Count",
+               "Sample Value", "NaNs", "% NaN"]
     column_report = pd.DataFrame(column_report, columns=columns).round(2)
     column_report.sort_values(by="NaNs", inplace=True)
     return column_report
@@ -54,7 +55,6 @@ def get_uniques(df):
     """
     for column in df.columns:
         print(column, df[column].unique())
-
 
 def get_addresses(df):
     addresses = set()
@@ -73,22 +73,3 @@ def output_addresses(df, file_out):
         for address in addresses:
             output.write(address + '\n')
     return addresses
-
-def convert_time_str_to_min(time_str):
-    time_elements = time_str.split(":")
-    hours = int(time_elements[0])
-    minutes = int(time_elements[1])
-    return minutes + (hours * 60)
-
-def convert_min_to_time_str(minutes):
-    minutes_str = str(minutes % 60)
-    if len(minutes_str) == 1:
-        minutes_str = '0' + minutes_str
-    return str((minutes / 60) % 24) + ":" + minutes_str
-
-def get_time_diff(time_start, time_end):
-    time_1 = convert_time_str_to_min(time_start)
-    time_2 = convert_time_str_to_min(time_end)
-    if time_2 < time_1:
-        time_2 += 24 * 60
-    return time_2 - time_1
