@@ -1,7 +1,9 @@
-import numpy as np
-
 import time
 from datetime import datetime
+import numpy as np
+import pandas as pd
+from lovelyrita.data import read_data
+
 
 def impute_missing_times(datetimes):
     """Fill in missing times by interpolating surrounding times
@@ -45,3 +47,80 @@ def impute_missing_times(datetimes):
         datetimes.iloc[valid_start+1:valid_end] = interpolated_datetimes[1:-1]
 
     return datetimes
+
+
+def find_dollar_columns(dataframe, nrows=100):
+    """Find the columns in a DataFrame that contain dollar values
+    """
+    def is_dollar_series(series):
+        if not hasattr(series.iloc[0], 'startswith'):
+            return False
+        for value in series.iloc[:nrows]:
+            if not value.startswith('$'):
+                return False
+        return True
+
+    return [column for column in dataframe
+            if is_dollar_series(dataframe[column])]
+
+
+def convert_dollar_to_float(dollars):
+    return dollars.replace('\$', '', regex=True).astype('float32')
+
+
+def infer_datetime_format(dt):
+    """Infer the datetime format for a Series
+
+    Parameters
+    ----------
+    dt : pandas.Series
+
+    Returns
+    -------
+    The datetime format as a string
+    """
+    datetime_formats = ['%m/%d/%y %H:%M:%S', '%m/%d/%y %H:%M']
+    for datetime_format in datetime_formats:
+        try:
+            dt = pd.to_datetime(dt[0], format=datetime_format)
+            return datetime_format
+        except:
+            pass
+    raise Exception('No datetime format detected for {}'.format(dt))
+
+
+def get_datetime(dataframe):
+    """Get a datatime for each row in a DataFrame
+
+    Parameters
+    ----------
+    dataframe : pandas.DataFrame
+        A dataframe with `ticket_issue_date` and `ticket_issue_time` columns
+
+    Returns
+    -------
+    A Series of datetime values    
+    """
+    dt = dataframe['ticket_issue_date'] + ' ' + dataframe['ticket_issue_time']
+    datetime_format = infer_datetime_format(dt)
+    return pd.to_datetime(dt, format=datetime_format)
+
+
+def clean(dataframe):
+    """Apply a series of data cleaning steps to a dataframe of raw data
+
+    Parameters
+    ----------
+    dataframe : pandas.DataFrame
+
+    Returns
+    -------
+    A cleaned DataFrame
+    """
+    dataframe['ticket_issue_datetime'] = get_datetime(dataframe)
+    dataframe['ticket_issue_datetime'] = impute_missing_times(dataframe['ticket_issue_datetime'])
+
+    for column in find_dollar_columns(dataframe):
+        dataframe[column] = convert_dollar_to_float(dataframe[column])
+
+    return dataframe

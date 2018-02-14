@@ -2,18 +2,16 @@ from __future__ import print_function
 import argparse
 import pandas as pd
 
-from lovelyrita.utils import get_data
+from lovelyrita.clean import clean
+from lovelyrita.utils import read_data
 
 def preprocess(input_path, output_path, column_dtype, column_map, delimiter):
-    df = get_data([input_path,], column_dtype, column_map, delimiter)
+    df = read_data([input_path,], column_dtype, column_map, delimiter)
     df.to_csv(output_path)
 
 def column_report(file_path):
     df = pd.read_csv(file_path)
     print(get_column_report(df))
-
-def clean(file_path):
-    print('cleaning {}'.format(file_path))
 
 def parse_arguments():
     # Commands are called with `lovelyrita <subcommand> <args>`

@@ -16,7 +16,7 @@ column_map = {'street': 'street',
               'Fine Amount': 'fine_amount',
               'Badge #': 'badge_number'}
 
-def read_data(paths, dtype, column_map=column_map, delimiter=','):
+def read_data(paths, column_map=column_map, delimiter=','):
     """Load data from a list of file paths.
 
     Parameters
@@ -33,17 +33,20 @@ def read_data(paths, dtype, column_map=column_map, delimiter=','):
     -------
     A DataFrame containing the loaded data
     """
-    if isinstance(paths, (tuple, list)):
+    if not isinstance(paths, (tuple, list)):
         paths = [paths,]
 
     if column_map is None:
         usecols = None
     else:
         usecols = column_map.keys()
-    df = pd.concat([pd.read_csv(path, usecols=usecols,
+
+    df = pd.concat([pd.read_csv(path, dtype='str', usecols=usecols,
                                 delimiter=delimiter)
                     for path in paths])
     df = df.reset_index(drop=True)
+
+    df['street'] = df['street'].str.strip(' ')
 
     if column_map:
         df.rename(columns=column_map, inplace=True)

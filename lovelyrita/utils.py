@@ -3,32 +3,6 @@ import numpy as np
 import pandas as pd
 
 
-def get_data(data_files, dtype, column_map=None, delimiter=','):
-    """Load data from a list of file paths.
-
-    Parameters
-    ----------
-    data_files : list
-        A list of file paths to the data to be loaded
-    dtype : dict
-        A dict containing key (column name) and value (data type)
-    column_map : dict
-        A dict containing key, original column name, and value, output column name
-    delimiter : str
-
-    Returns
-    -------
-    A DataFrame containing the loaded data
-    """
-    df = pd.concat([pd.read_csv(f, dtype=dtype, delimiter=delimiter)
-                    for f in data_files])
-    df = df.reset_index(drop=True)
-
-    if column_map:
-        df.rename(columns=column_map, inplace=True)
-
-    return df
-
 def get_column_report(df):
     """Generate a summary of the data in a DataFrame
     """
