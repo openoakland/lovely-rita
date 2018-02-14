@@ -1,7 +1,47 @@
-Functions
-=========
-1. Scrape geolocations from text addresses [lovely-rita-geoscrape]
-2. Impute missing data (times, etc., ...) [Lovely-rita-eda]
+Lovely-rita is set of tools for reading, cleaning, and saving parking parking citation datasets.
+
+Functionality
+=============
+
+- Load data
+- Clean data (addresses and dates)
+- Geocode (turn addresses into latitude/longitude coordinates)
+- Save cleaned data to shapefiles for GIS analyses
+
+Getting started
+===============
+
+.. code-block:: bash
+
+git clone https://github.com/r-b-g-b/lovely-rita.git
+cd lovely-rita
+pip install . --user
+
+  
+Raw data format
+===============
+
+Raw data should be provided in a `.csv` with the column names (in any order):
+
+- 'Ticket Issue Time'
+- 'Ticket Number'
+- 'Street Name'
+- 'Violation External Code'
+- 'street'
+- 'Street No'
+- 'Violation Desc Long'
+- 'Ticket Issue Date'
+- 'state'
+- 'city'
+- 'Street Suffix'
+- 'Badge #'
+- 'Fine Amount'
+
+
+Reading the data
+================
+
+
 
 Analyses
 ========
