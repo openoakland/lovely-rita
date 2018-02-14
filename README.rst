@@ -13,9 +13,9 @@ Getting started
 
 .. code-block:: bash
 
-git clone https://github.com/r-b-g-b/lovely-rita.git
-cd lovely-rita
-pip install . --user
+    git clone https://github.com/r-b-g-b/lovely-rita.git
+    cd lovely-rita
+    pip install . --user
 
   
 Raw data format
