@@ -44,7 +44,8 @@ def impute_missing_times(datetimes):
         n = valid_end - valid_start + 1
         interpolated_seconds = np.linspace(start_seconds, end_seconds, n)
         interpolated_datetimes = [datetime.fromtimestamp(s) for s in interpolated_seconds]
-        datetimes.iloc[valid_start+1:valid_end] = interpolated_datetimes[1:-1]
+        for i, j in enumerate(range(valid_start+1, valid_end)):
+            datetimes[j] = interpolated_datetimes[i]
 
     return datetimes
 
@@ -105,6 +106,8 @@ def get_datetime(dataframe):
     datetime_format = infer_datetime_format(dt)
     return pd.to_datetime(dt, format=datetime_format)
 
+def is_void(description):
+    pass
 
 def clean(dataframe):
     """Apply a series of data cleaning steps to a dataframe of raw data
@@ -119,6 +122,7 @@ def clean(dataframe):
     """
     dataframe['ticket_issue_datetime'] = get_datetime(dataframe)
     dataframe['ticket_issue_datetime'] = impute_missing_times(dataframe['ticket_issue_datetime'])
+    dataframe.drop(['ticket_issue_time', 'ticket_issue_date'], axis=1, inplace=True)
 
     for column in find_dollar_columns(dataframe):
         dataframe[column] = convert_dollar_to_float(dataframe[column])
