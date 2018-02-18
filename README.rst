@@ -1,153 +1,106 @@
-Lovely-rita is set of tools for reading, cleaning, and saving parking parking citation datasets.
+Lovely-Rita: Insights from Oakland Citation Data
+================================================
 
-Functionality
-=============
+Lovely Rita is set of tools for reading, cleaning, and saving parking parking citation datasets. The project is a part of Oakland's Code for America brigade `OpenOakland <http://openoakland.org/>`_. You can read more about the project in this `presentation <https://goo.gl/XiUvkB>`_.
 
-- Load data
-- Clean data (addresses and dates)
-- Geocode (turn addresses into latitude/longitude coordinates)
-- Save cleaned data to shapefiles for GIS analyses
+With Lovely Rita, you can load historical parking citation data, clean the data (addresses and dates), geocode (turn addresses into geospatial coordinates), and save cleaned data to shapefiles for GIS analyses.
 
-Getting started
-===============
+
+Installation
+============
+
+It is good practice to use a `virtual environment <https://virtualenv.pypa.io/en/stable/>`_.
 
 .. code-block:: bash
 
     git clone https://github.com/r-b-g-b/lovely-rita.git
     cd lovely-rita
+    pip install -r requirements.txt
     pip install . --user
 
-  
+
 Raw data format
 ===============
 
 Raw data should be provided in a `.csv` with the column names (in any order):
 
-- 'Ticket Issue Time'
-- 'Ticket Number'
-- 'Street Name'
-- 'Violation External Code'
-- 'street'
-- 'Street No'
-- 'Violation Desc Long'
-- 'Ticket Issue Date'
-- 'state'
-- 'city'
-- 'Street Suffix'
-- 'Badge #'
-- 'Fine Amount'
+- ticket_number
+- ticket_issue_date
+- ticket_issue_time
+- street_name
+- street_name
+- street_no
+- street_suffix
+- violation_external_code
+- violation_desc_long
+- state
+- city
+- badge__
+- fine_amount
 
 
-Reading the data
+Command line interface
+======================
+
+Several useful workflows can be run from the command line. Learn about the available workflows using ``lovelyrita --help``. Learn about a specific workflow using ``lovelyrita <workflow> --help``.
+
+
+Python interface
 ================
 
+There is also a python inferface if you want to dive deeper into the data.
+
+Read in the data
+----------------
+
+.. code-block:: python
+
+    from lovelyrita.data import read_data
+    citations = read_data(data_path)
 
 
-Analyses
-========
+Clean the data
+--------------
+
+.. code-block:: python
+
+    from lovelyrita.data import read_data
+    citations = read_data(data_path)
+    citations = clean(citations)
+
+
+Analyze the data
+----------------
+
 1. Number of citations per zip code
 2. Time-series, number of citations
 3. Type of violation by zip code
 
-Lovely-Rita: Insights from Oakland Citation Data
-================================================
 
-Detailed slides to share here: https://goo.gl/XiUvkB
+Tests
+=====
 
-One Paragraph of project description goes here
+There will be tests.
 
-Getting Started
-===============
-
-These instructions will get you a copy of the project up and running on your local machine for development and testing purposes. See deployment for notes on how to deploy the project on a live system.
-
-Prerequisites
--------------
-
-What things you need to install the software and how to install them
-
-```
-Give examples
-```
-
-Reproducibility
----------------
-
-A step by step series of examples that tell you have to get a development env running for reproducible notebooks
-
-Python, Conda, blah blah
-
-```
-Give the example
-```
-
-And repeat
-
-```
-until finished
-```
-
-End with an example of getting some data out of the system or using it for a little demo
-
-Running the tests
------------------
-
-Explain how to run the automated tests for this system
-
-Break down into end to end tests
---------------------------------
-
-Explain what these tests test and why
-
-```
-Give an example
-```
-
-And coding style tests
-----------------------
-
-Explain what these tests test and why
-
-```
-Give an example
-```
-
-Deployment
-----------
-
-Add additional notes about how to deploy this on a live system
-
-Built With
-----------
-
-* [Dropwizard](http://www.dropwizard.io/1.0.2/docs/) - The web framework used
-* [Maven](https://maven.apache.org/) - Dependency Management
-* [ROME](https://rometools.github.io/rome/) - Used to generate RSS Feeds
 
 Contributing
-------------
+============
 
 Please read [CONTRIBUTING.md](https://gist.github.com/PurpleBooth/b24679402957c63ec426) for details on our code of conduct, and the process for submitting pull requests to us.
 
-Versioning
-----------
-
-We use [SemVer](http://semver.org/) for versioning. For the versions available, see the [tags on this repository](https://github.com/your/project/tags). 
 
 Authors
--------
+=======
 
-* **Team member 1** - *github handlek* - [LinkedIn]()
+See our `list of contributors <https://github.com/r-b-g-b/lovely-rita/blob/master/CONTRIBUTORS.md>`_ to learn about the many wonderful people who helped design and build Lovely Rita.
 
-See also the list of [contributors](https://github.com/your/project/contributors) who participated in this project.
 
 License
--------
+=======
 
-This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md) file for details
+This project is licensed under the MIT License - see the `license file <https://github.com/r-b-g-b/lovely-rita/blob/master/LICENSE.txt>`_ for details.
 
 Acknowledgments
----------------
+===============
 
-* Recognize Danielle & Oakland DoT
-* etc
+We would like to acknowledge the help of Danielle Dai and the Oakland Department of Transportation for providing the data and invaluable guidance for this project.
