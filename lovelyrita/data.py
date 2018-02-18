@@ -53,3 +53,47 @@ def read_data(paths, column_map=column_map, delimiter=','):
         df.rename(columns=column_map, inplace=True)
 
     return df
+
+
+def get_sample_value(series):
+    """Return a sample value from a series
+
+    Parameters
+    ----------
+    series : pandas.Series
+
+    Returns
+    -------
+    A sample value from the series or None if all values in the series are null
+    """
+    unique = series.unique()
+    for value in unique:
+        if value is not np.nan:
+            return value
+
+def summarize(dataframe):
+    """Generate a summary of the data in a dataframe.
+
+    Parameters
+    ----------
+    dataframe : pandas.DataFrame
+
+    Returns
+    -------
+    A DataFrame containing the data type, number of unique values, a sample value, number and
+    percent of null values
+    """
+    column_report = []
+    for column in dataframe.columns:
+        unique = dataframe[column].unique()
+        sample = get_sample_value(dataframe[column])
+        n_null = dataframe[column].isnull().sum()
+        pct_null = 100. * n_null / dataframe.shape[0]
+        r = [column, dataframe[column].dtype, len(unique), sample, n_null, pct_null]
+        column_report.append(r)
+
+    columns=["Column Name", "Data Type", "Unique Count", "Sample Value", "null", "% null"]
+    column_report = pd.DataFrame(column_report, columns=columns).round(2)
+    column_report.sort_values(by="null", inplace=True)
+
+    return column_report

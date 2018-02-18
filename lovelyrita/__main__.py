@@ -3,15 +3,11 @@ import argparse
 import pandas as pd
 
 from lovelyrita.clean import clean
-from lovelyrita.utils import read_data
+from lovelyrita.data import read_data, summarize
 
 def preprocess(input_path, output_path, column_dtype, column_map, delimiter):
     df = read_data([input_path,], column_dtype, column_map, delimiter)
     df.to_csv(output_path)
-
-def column_report(file_path):
-    df = pd.read_csv(file_path)
-    print(get_column_report(df))
 
 def parse_arguments():
     # Commands are called with `lovelyrita <subcommand> <args>`
@@ -22,10 +18,10 @@ def parse_arguments():
     clean.set_defaults(command_name='clean')
     clean.add_argument('file_path', help="""File path to the raw data.""")
 
-    column_report = subcommand.add_parser('column_report', help=("""Generate a column report from 
+    summarize = subcommand.add_parser('summarize', help=("""Generate a column summarize from 
                                                                     raw data file."""))
-    column_report.set_defaults(command_name='column_report')
-    column_report.add_argument('file_path', help="""Location of the raw data.""")
+    summarize.set_defaults(command_name='summarize')
+    summarize.add_argument('file_path', help="""Location of the raw data.""")
 
     preprocess = subcommand.add_parser('preprocess', help=("""Preprocess a raw data file and save 
                                                               to an output file."""))
@@ -45,8 +41,11 @@ def main(args=None):
 
     if args.subcommand == 'clean':
         clean(args.file_path)
-    elif args.subcommand == 'column_report':
-        column_report(args.file_path)
+
+    elif args.subcommand == 'summarize':
+        df = read_data(args.file_path)
+        print(summarize(df))
+
     elif args.subcommand == 'preprocess':
         from lovelyrita.column_dtypes import column_dtypes
         from lovelyrita.column_maps import column_maps
