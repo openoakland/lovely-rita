@@ -2,19 +2,20 @@ from __future__ import print_function
 import numpy as np
 import pandas as pd
 
-column_map = {'street': 'street',
-              'city': 'city',
-              'state': 'state',
-              'Ticket Number': 'ticket_number',
-              'Ticket Issue Date': 'ticket_issue_date',
-              'Ticket Issue Time': 'ticket_issue_time',
-              'Violation External Code': 'violation_external_code',
-              'Violation Desc Long': 'violation_desc_long',
-              'Street No': 'street_no',
-              'Street Name': 'street_name',
-              'Street Suffix': 'street_suffix',
-              'Fine Amount': 'fine_amount',
-              'Badge #': 'badge_number'}
+column_map = {"street": 'street',
+              "city": 'city',
+              "state": 'state',
+              "ticket_number": 'ticket_number',
+              "ticket_issue_date": 'ticket_issue_date',
+              "ticket_issue_time": 'ticket_issue_time',
+              "violation_external_code": 'violation_external_code',
+              "violation_desc_long": 'violation_desc_long',
+              "street_no": 'street_no',
+              "street_name": 'street_name',
+              "street_suffix": 'street_suffix',
+              "fine_amount": 'fine_amount',
+              "badge__": 'badge_number'}
+
 
 def read_data(paths, column_map=column_map, delimiter=','):
     """Load data from a list of file paths.
