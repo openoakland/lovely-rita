@@ -20,6 +20,10 @@ class Geocoder(object):
     def geocode(self, address):
         """
         Pull data from Google Maps API
+
+        Parameters
+        ----------
+        address : str
         """
         # check if query has already been run
         try:
