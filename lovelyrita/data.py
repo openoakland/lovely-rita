@@ -90,7 +90,7 @@ def to_geopandas(dataframe, copy=False):
     for column in df.select_dtypes(include=['datetime']):
         df[column] = df[column].dt.strftime('%m/%d/%y %H:%M:%S')
 
-    return geopandas.GeoDataFrame(df, geometry='geometry')
+    return geopandas.GeoDataFrame(df, geometry='geometry', crs={'init': 'epsg:4326'})
 
 
 def write_shapefile(geodataframe, path):
