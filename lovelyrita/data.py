@@ -65,7 +65,8 @@ def read_data(paths, column_map=column_map, delimiter=',', clean=False):
     return dataframe
 
 
-def to_geopandas(dataframe, copy=False, projection='epsg:4326'):
+def to_geopandas(dataframe, copy=False, drop_null_geometry=True,
+                 projection='epsg:4326'):
     """Convert a pandas DataFrame to geopandas DataFrame.
 
     Parameters
@@ -73,6 +74,8 @@ def to_geopandas(dataframe, copy=False, projection='epsg:4326'):
     dataframe : pandas.DataFrame
         Must contain latitude and longitude fields
     copy : bool
+    drop_null_geometry : bool
+    projection : str
 
     Returns
     -------
@@ -95,6 +98,9 @@ def to_geopandas(dataframe, copy=False, projection='epsg:4326'):
     df['geometry'] = points
 
     df.drop(['latitude', 'longitude'], axis=1, inplace=True)
+
+    if drop_null_geometry:
+        df = df.loc[~df.geometry.isnull()]
 
     # geopandas cannot handle datetime formats, so convert to string
     for column in df.select_dtypes(include=['datetime']):
