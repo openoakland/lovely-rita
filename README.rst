@@ -5,6 +5,8 @@ Lovely Rita is set of tools for reading, cleaning, and saving parking parking ci
 
 With Lovely Rita, you can load historical parking citation data, clean the data (addresses and dates), geocode (turn addresses into geospatial coordinates), and save cleaned data to shapefiles for GIS analyses.
 
+Check out our `documentation <https://openoakland.github.io/lovely-rita/>`_ for more detail.
+
 
 Installation
 ============
