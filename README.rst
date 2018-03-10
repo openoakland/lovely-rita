@@ -26,19 +26,21 @@ Raw data format
 
 Raw data should be provided in a `.csv` with the column names (in any order):
 
-- ticket_number
-- ticket_issue_date
-- ticket_issue_time
-- street_name
-- street_name
-- street_no
-- street_suffix
-- violation_external_code
-- violation_desc_long
-- state
-- city
-- badge__
-- fine_amount
+===================
+ticket_number
+ticket_issue_date
+ticket_issue_time
+street_name
+street_name
+street_no
+street_suffix
+violation_external_code
+violation_desc_long
+state
+city
+badge__
+fine_amount
+===================
 
 
 Command line interface
@@ -63,10 +65,12 @@ Read in the data
 
 Clean the data
 --------------
+Lovely Rita can also clean and parse addresses and dates.
 
 .. code-block:: python
 
     from lovelyrita.data import read_data
+    from lovelyrita.clean import clean
     citations = read_data(data_path)
     citations = clean(citations)
 
