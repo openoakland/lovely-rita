@@ -10,6 +10,7 @@ Welcome to Lovely Rita's documentation!
    :maxdepth: 2
    :caption: Modules:
 
+   addresses
    clean
    data
    geocode

@@ -1,3 +1,4 @@
+from six import string_types
 import re
 import pandas as pd
 
@@ -14,6 +15,36 @@ VALID_SUFFIXES = ['AVE', 'AVEN', 'BLOCK', 'BLVD', 'BOULEVARD', 'CIR', 'COURT',
                   'LANE', 'LOOP', 'PARKWAY', 'PKWAY', 'PKWY', 'PL', 'PLACE',
                   'PLAZA', 'PLZ', 'R', 'ROAD', 'SR', 'ST', 'STREET',
                   'TERR', 'TERRACE', 'VISTA', 'VW', 'WAY', 'WY']
+
+
+def replace(addresses, replacements=REPLACEMENTS, inplace=True):
+    """Replace text in addresses
+
+    Parameters
+    ----------
+    addresses : pandas.Series
+    replacements : tuple list of tuples
+        Replacements provided as (pattern to replace, replacement). Multiple replacements can be 
+        provided as a list of tuples
+    inplace : bool
+
+    Returns
+    -------
+    If inplace is False, returns the address series with the replacements made.
+    """
+    if isinstance(replacements[0], string_types):
+        replacements = [replacements, ]
+
+    if inplace:
+        addr = addresses
+    else:
+        addr = addresses.copy()
+
+    for pattern, replacement in REPLACEMENTS:
+        addr.replace(pattern, replacement, regex=True, inplace=True)
+
+    if not inplace:
+        return addr
 
 
 def parse_123_main_street(addresses):

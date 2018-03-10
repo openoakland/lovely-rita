@@ -2,7 +2,7 @@ import time
 from datetime import datetime
 import numpy as np
 import pandas as pd
-from lovelyrita.addresses import parse_addresses
+from lovelyrita.addresses import parse_addresses, replace
 
 
 def impute_missing_times(datetimes):
@@ -141,6 +141,8 @@ def clean(dataframe):
     """
 
     drop_void(dataframe)
+
+    replace(dataframe.street)
 
     addresses = parse_addresses(dataframe.street)
     dataframe.update(addresses)
