@@ -1,13 +1,14 @@
 from __future__ import print_function
 import argparse
-import pandas as pd
 
 from lovelyrita.clean import clean
 from lovelyrita.data import read_data, summarize
 
+
 def preprocess(input_path, output_path, column_dtype, column_map, delimiter):
-    df = read_data([input_path,], column_dtype, column_map, delimiter)
+    df = read_data([input_path, ], column_dtype, column_map, delimiter)
     df.to_csv(output_path)
+
 
 def parse_arguments():
     # Commands are called with `lovelyrita <subcommand> <args>`
@@ -36,6 +37,7 @@ def parse_arguments():
     args = parser.parse_args()
     return args
 
+
 def main(args=None):
     args = parse_arguments()
 
@@ -54,6 +56,7 @@ def main(args=None):
                    column_dtypes[args.column_type],
                    column_maps[args.column_type],
                    delimiter=args.delimiter)
+
 
 if __name__ == "__main__":
     main()

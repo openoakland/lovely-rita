@@ -1,18 +1,18 @@
-import time
 import requests
 import datetime
 from urllib.parse import urlencode
-import json
 import pandas as pd
 from lovelyrita.config import API_KEY
 
+
 API_URL = "https://maps.googleapis.com/maps/api/geocode/"
+
 
 class Geocoder(object):
     def __init__(self, geocodes=None, api_url=API_URL, api_key=API_KEY):
         if geocodes is None:
             geocodes = pd.DataFrame(columns=('lat', 'lng', 'place_id', 'timestamp'))
-            geocodes.index.name='address'
+            geocodes.index.name = 'address'
         self.geocodes = geocodes
         self.api_url = API_URL
         self.api_key = API_KEY
@@ -54,24 +54,29 @@ class Geocoder(object):
                                 name=address)
         self.geocodes = self.geocodes.append(new_geocode)
         return lat, lng, place_id
-    
+
     @classmethod
     def load(cls, geocode_path):
         return cls(load_geocodes(geocode_path))
+
     def save(self, geocode_path):
         save_geocodes(self.geocodes, geocode_path)
-    
+
+
 def save_addresses(addresses, path):
     with open(path, 'w') as f:
         f.write('\n'.join(addresses))
+
 
 def load_addresses(path):
     with open(path, 'r') as f:
         addresses = f.read().split('\n')
     return addresses
 
+
 def save_geocodes(geocodes, path):
     geocodes.to_hdf(path, 'geocodes')
+
 
 def load_geocodes(path):
     return pd.read_hdf(path)

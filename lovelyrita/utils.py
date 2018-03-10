@@ -24,11 +24,13 @@ def get_column_report(df):
     column_report.sort_values(by="NaNs", inplace=True)
     return column_report
 
+
 def get_uniques(df):
     """Return the unique values for each column
     """
     for column in df.columns:
         print(column, df[column].unique())
+
 
 def get_addresses(df):
     addresses = set()
@@ -38,6 +40,7 @@ def get_addresses(df):
         addresses.add(" ".join(item.lower().split()))
 
     return list(addresses)
+
 
 def output_addresses(df, file_out):
     """

@@ -1,6 +1,10 @@
 from __future__ import print_function
 import numpy as np
 import pandas as pd
+from shapely.geometry import Point
+import geopandas
+from lovelyrita.clean import clean as clean_data
+
 
 column_map = {"street": 'street',
               "city": 'city',
@@ -17,7 +21,7 @@ column_map = {"street": 'street',
               "badge__": 'badge_number'}
 
 
-def read_data(paths, column_map=column_map, delimiter=','):
+def read_data(paths, column_map=column_map, delimiter=',', clean=False):
     """Load data from a list of file paths.
 
     Parameters
@@ -35,24 +39,69 @@ def read_data(paths, column_map=column_map, delimiter=','):
     A DataFrame containing the loaded data
     """
     if not isinstance(paths, (tuple, list)):
-        paths = [paths,]
+        paths = [paths, ]
 
     if column_map is None:
         usecols = None
     else:
         usecols = column_map.keys()
 
-    df = pd.concat([pd.read_csv(path, dtype='str', usecols=usecols,
-                                delimiter=delimiter)
-                    for path in paths])
-    df = df.reset_index(drop=True)
+    dataframe = []
+    for path in paths:
+        df = pd.read_csv(path, dtype='str', usecols=usecols, delimiter=delimiter)
 
-    df['street'] = df['street'].str.strip(' ')
+        if column_map:
+            df.rename(columns=column_map, inplace=True)
 
-    if column_map:
-        df.rename(columns=column_map, inplace=True)
+        df['street'] = df['street'].str.strip(' ')
 
-    return df
+        if clean:
+            df = clean_data(df)
+
+        dataframe.append(df)
+
+    dataframe = pd.concat(dataframe).reset_index(drop=True)
+
+    return dataframe
+
+
+def to_geopandas(dataframe, copy=False):
+    """Convert a pandas DataFrame to geopandas DataFrame.
+
+    Parameters
+    ----------
+    dataframe : pandas.DataFrame
+        Must contain latitude and longitude fields
+    copy : bool
+
+    Returns
+    -------
+    A GeoDataFrame of the given DataFrame
+    """
+    if copy:
+        df = dataframe.copy()
+    else:
+        df = dataframe
+
+    df['geometry'] = df.apply(lambda x: Point((float(x.longitude), float(x.latitude))), axis=1)
+    df.drop(['latitude', 'longitude'], axis=1, inplace=True)
+
+    # geopandas cannot handle datetime formats, so convert to string
+    for column in df.select_dtypes(include=['datetime']):
+        df[column] = df[column].dt.strftime('%m/%d/%y %H:%M:%S')
+
+    return geopandas.GeoDataFrame(df, geometry='geometry')
+
+
+def write_shapefile(geodataframe, path):
+    """Write a geodataframe to a shapefile.
+
+    Parameters
+    ----------
+    geodataframe : geopandas.GeoDataFrame
+    path : str
+    """
+    geodataframe.to_file(path, driver='ESRI Shapefile')
 
 
 def get_sample_value(series):
@@ -70,6 +119,7 @@ def get_sample_value(series):
     for value in unique:
         if value is not np.nan:
             return value
+
 
 def summarize(dataframe):
     """Generate a summary of the data in a dataframe.
@@ -92,7 +142,7 @@ def summarize(dataframe):
         r = [column, dataframe[column].dtype, len(unique), sample, n_null, pct_null]
         column_report.append(r)
 
-    columns=["Column Name", "Data Type", "Unique Count", "Sample Value", "null", "% null"]
+    columns = ["Column Name", "Data Type", "Unique Count", "Sample Value", "null", "% null"]
     column_report = pd.DataFrame(column_report, columns=columns).round(2)
     column_report.sort_values(by="null", inplace=True)
 
