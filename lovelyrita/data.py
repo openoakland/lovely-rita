@@ -65,8 +65,8 @@ def read_data(paths, column_map=column_map, delimiter=',', clean=False):
     return dataframe
 
 
-def to_geopandas(dataframe, copy=False, drop_null_geometry=True,
-                 projection='epsg:4326'):
+def to_geodataframe(dataframe, copy=False, drop_null_geometry=True,
+                    projection='epsg:4326'):
     """Convert a pandas DataFrame to geopandas DataFrame.
 
     Parameters
