@@ -65,7 +65,7 @@ def read_data(paths, column_map=column_map, delimiter=',', clean=False):
     return dataframe
 
 
-def to_geopandas(dataframe, copy=False):
+def to_geopandas(dataframe, copy=False, projection='epsg:4326'):
     """Convert a pandas DataFrame to geopandas DataFrame.
 
     Parameters
@@ -83,14 +83,24 @@ def to_geopandas(dataframe, copy=False):
     else:
         df = dataframe
 
-    df['geometry'] = df.apply(lambda x: Point((float(x.longitude), float(x.latitude))), axis=1)
+    df.latitude = df.latitude.astype('float32')
+    df.longitude = df.longitude.astype('float32')
+
+    points = []
+    for x, y in zip(df.latitude, df.longitude):
+        if not x == 0:
+            points.append(Point(y, x))
+        else:
+            points.append(None)
+    df['geometry'] = points
+
     df.drop(['latitude', 'longitude'], axis=1, inplace=True)
 
     # geopandas cannot handle datetime formats, so convert to string
     for column in df.select_dtypes(include=['datetime']):
         df[column] = df[column].dt.strftime('%m/%d/%y %H:%M:%S')
 
-    return geopandas.GeoDataFrame(df, geometry='geometry', crs={'init': 'epsg:4326'})
+    return geopandas.GeoDataFrame(df, geometry='geometry', crs={'init': projection})
 
 
 def write_shapefile(geodataframe, path):

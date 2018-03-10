@@ -48,7 +48,7 @@ Several useful workflows can be run from the command line. Learn about the avail
 Python interface
 ================
 
-There is also a python inferface if you want to dive deeper into the data.
+There is also a python inferface if you want to dive deeper into the data. There are more involved examples in the `notebooks <https://github.com/openoakland/lovely-rita/tree/master/notebooks>`_ folder.
 
 Read in the data
 ----------------
@@ -77,6 +77,16 @@ Analyze the data
 3. Type of violation by zip code
 
 
+Save the data
+-------------
+There is also support for storing the data to shapefiles
+
+.. code-block:: python
+
+    from lovelyrita.data import write_shapefile
+    write_shapefile(citations, 'my-shapefile.shp')
+
+
 Tests
 =====
 
@@ -86,7 +96,7 @@ There will be tests.
 Contributing
 ============
 
-Please read [CONTRIBUTING.md](https://gist.github.com/PurpleBooth/b24679402957c63ec426) for details on our code of conduct, and the process for submitting pull requests to us.
+Please read `CONTRIBUTING.md <https://gist.github.com/PurpleBooth/b24679402957c63ec426>`_ for details on our code of conduct, and the process for submitting pull requests to us.
 
 
 Authors
