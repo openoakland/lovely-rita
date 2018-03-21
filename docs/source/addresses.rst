@@ -1,5 +1,5 @@
 :mod:`addresses`
-===========
+================
 .. automodule:: lovelyrita.addresses
    :members:
    :undoc-members:

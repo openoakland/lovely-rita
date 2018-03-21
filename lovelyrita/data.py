@@ -18,7 +18,10 @@ column_map = {"street": 'street',
               "street_name": 'street_name',
               "street_suffix": 'street_suffix',
               "fine_amount": 'fine_amount',
-              "badge__": 'badge_number'}
+              "badge__": 'badge_number',
+              "[latitude]": "latitude",
+              "[longitude]": "longitude"
+              }
 
 
 def read_data(paths, column_map=column_map, delimiter=',', clean=False):

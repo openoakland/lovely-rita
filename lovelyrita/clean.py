@@ -107,8 +107,8 @@ def get_datetime(dataframe):
     return pd.to_datetime(dt, format=datetime_format)
 
 
-def drop_void(dataframe, inplace=True):
-    """Drop voided citations
+def drop_null(dataframe, inplace=True):
+    """Drop null tickets
 
     Parameters
     ----------
@@ -117,15 +117,28 @@ def drop_void(dataframe, inplace=True):
 
     Returns
     -------
-    If `inplace` is False, return the dataframe with voided citations dropped
+    If `inplace` is False, returns the input dataframe with the null citations removed.
+    """
+    null_indices = dataframe.ticket_number.isnull()
+    if inplace:
+        dataframe.drop(null_indices, inplace=True)
+    else:
+        return dataframe.drop(null_indices, inplace=False)
+
+
+def clean_voided(dataframe, add_indicator=True):
+    """Detect voided citations
+
+    Parameters
+    ----------
+    dataframe : pandas.DataFrame
+    add_indicator : bool
+        If True, add a column `voided` to the dataframe that indicates whether the ticket was 
+        voided or not.
     """
     void_indices = dataframe.street.str.contains(r'^Z?VOIDZ?')
-    null_indices = dataframe.ticket_number.isnull()
-    drop_indices = np.logical_or(void_indices, null_indices).nonzero()[0]
-    if inplace:
-        dataframe.drop(drop_indices, inplace=True)
-    else:
-        return dataframe.drop(drop_indices, inplace=False)
+    dataframe['street'] = dataframe.street.str.replace(r'^Z?VOIDZ?', '')
+    dataframe['voided'] = void_indices
 
 
 def clean(dataframe):
@@ -140,7 +153,8 @@ def clean(dataframe):
     A cleaned DataFrame
     """
 
-    drop_void(dataframe)
+    drop_null(dataframe)
+    clean_voided(dataframe)
 
     replace(dataframe.street)
 
