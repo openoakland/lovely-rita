@@ -109,6 +109,7 @@ Documentation
 =============
 
 .. code-block:: bash
+
     git clone -b gh-pages http://github.com/openoakland/lovely-rita.git lovely-rita-docs
 
 
