@@ -108,8 +108,9 @@ There is also support for storing the data to shapefiles
 Documentation
 =============
 
-.. code-block::
+.. code-block:: bash
     git clone -b gh-pages http://github.com/openoakland/lovely-rita.git lovely-rita-docs
+
 
 Tests
 =====
