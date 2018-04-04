@@ -12,6 +12,7 @@ Welcome to Lovely Rita's documentation!
    :maxdepth: 2
    :caption: Modules:
 
+   readme_include
    addresses
    clean
    data
