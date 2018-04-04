@@ -87,7 +87,7 @@ class PostGISGeocoder(object):
         A dictionary containing keys latitude, longitude, street_no, street_name, street_type, and 
         rating (a numeric value indicating how uncertain the geocoding is)
         """
-        patt = "[" + re.escape("()\'") + "]"
+        patt = "[" + re.escape("()\'+") + "]"
         address = re.sub(patt, '', address)
 
         columns = ['rating', 'longitude', 'latitude',

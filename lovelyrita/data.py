@@ -6,25 +6,7 @@ import geopandas
 from lovelyrita.clean import clean as clean_data
 
 
-column_map = {"street": 'street',
-              "city": 'city',
-              "state": 'state',
-              "ticket_number": 'ticket_number',
-              "ticket_issue_date": 'ticket_issue_date',
-              "ticket_issue_time": 'ticket_issue_time',
-              "violation_external_code": 'violation_external_code',
-              "violation_desc_long": 'violation_desc_long',
-              "street_no": 'street_no',
-              "street_name": 'street_name',
-              "street_suffix": 'street_suffix',
-              "fine_amount": 'fine_amount',
-              "badge__": 'badge_number',
-              "[latitude]": "latitude",
-              "[longitude]": "longitude"
-              }
-
-
-def read_data(paths, column_map=column_map, delimiter=',', clean=False):
+def read_data(paths, usecols=None, delimiter=',', clean=False):
     """Load data from a list of file paths.
 
     Parameters
@@ -33,8 +15,6 @@ def read_data(paths, column_map=column_map, delimiter=',', clean=False):
         A list of file paths to the data to be loaded
     dtype : dict
         A dict containing key (column name) and value (data type)
-    column_map : dict
-        A dict containing key, original column name, and value, output column name
     delimiter : str
 
     Returns
@@ -44,17 +24,10 @@ def read_data(paths, column_map=column_map, delimiter=',', clean=False):
     if not isinstance(paths, (tuple, list)):
         paths = [paths, ]
 
-    if column_map is None:
-        usecols = None
-    else:
-        usecols = column_map.keys()
-
     dataframe = []
     for path in paths:
-        df = pd.read_csv(path, dtype='str', usecols=usecols, delimiter=delimiter)
-
-        if column_map:
-            df.rename(columns=column_map, inplace=True)
+        df = pd.read_csv(path, dtype='str', usecols=usecols,
+                         delimiter=delimiter)
 
         df['street'] = df['street'].str.strip(' ')
 
