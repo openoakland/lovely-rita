@@ -105,6 +105,14 @@ There is also support for storing the data to shapefiles
     write_shapefile(citations, 'my-shapefile.shp')
 
 
+Documentation
+=============
+
+.. code-block:: bash
+
+    git clone -b gh-pages http://github.com/openoakland/lovely-rita.git lovely-rita-docs
+
+
 Tests
 =====
 
