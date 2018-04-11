@@ -132,13 +132,12 @@ Authors
 
 The many wonderful people who helped design and build Lovely Rita (* denote active contributors):
 
-- `Robert Gibboni <https://github.com/r-b-g-b>`_  aka `r-b-g-b` *
-- `Andrew Tom <https://github.com/Atomahawk>`_ aka `atomahawk` *
-- `Ricky Boebel <https://github.com/ricky-boebel>`_ aka `ricky-boebel` *
-- `Joanna Jia <https://github.com/jjia25>`_ aka `jjia25`
-- `Drew Erickson <https://github.com/drewerickson>`_ aka `drewerickson`
-- `Slav Sinitsyn <https://github.com/Slavster>`_ aka `slavster`
-
+- `Robert Gibboni <https://github.com/r-b-g-b>`_  aka ``r-b-g-b`` *
+- `Andrew Tom <https://github.com/Atomahawk>`_ aka ``atomahawk`` *
+- `Ricky Boebel <https://github.com/ricky-boebel>`_ aka ``ricky-boebel`` *
+- `Joanna Jia <https://github.com/jjia25>`_ aka ``jjia25``
+- `Drew Erickson <https://github.com/drewerickson>`_ aka ``drewerickson``
+- `Slav Sinitsyn <https://github.com/Slavster>`_ aka ``slavster``
 
 License
 =======
