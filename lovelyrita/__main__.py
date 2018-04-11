@@ -1,59 +1,69 @@
 from __future__ import print_function
 import argparse
-import pandas as pd
 
 from lovelyrita.clean import clean
-from lovelyrita.data import read_data, summarize
+from lovelyrita.data import read_data, summarize, write_shapefile, to_geodataframe
 
-def preprocess(input_path, output_path, column_dtype, column_map, delimiter):
-    df = read_data([input_path,], column_dtype, column_map, delimiter)
-    df.to_csv(output_path)
 
 def parse_arguments():
     # Commands are called with `lovelyrita <subcommand> <args>`
     parser = argparse.ArgumentParser(prog="lovelyrita")
     subcommand = parser.add_subparsers(title="subcommand", dest="subcommand")
 
-    clean = subcommand.add_parser('clean', help="""Clean raw data file.""")
+    clean = subcommand.add_parser('clean', help="""Clean raw data file""")
     clean.set_defaults(command_name='clean')
-    clean.add_argument('file_path', help="""File path to the raw data.""")
+    clean.add_argument('in_path', help="""File path to the raw data""")
+    clean.add_argument('out_path', help="""Output path""")
 
     summarize = subcommand.add_parser('summarize', help=("""Generate a column summarize from 
-                                                                    raw data file."""))
+                                                            raw data file"""))
     summarize.set_defaults(command_name='summarize')
-    summarize.add_argument('file_path', help="""Location of the raw data.""")
+    summarize.add_argument('in_path', help="""Location of the raw data.""")
 
-    preprocess = subcommand.add_parser('preprocess', help=("""Preprocess a raw data file and save 
-                                                              to an output file."""))
-    preprocess.set_defaults(command_name='preprocess')
-    preprocess.add_argument('input_path', help="""Location of the raw data.""")
-    preprocess.add_argument('output_path', help="""Where to store the output data""")
-    preprocess.add_argument('column_type', help=("""Integer indicating how to interpret the columns 
-                                                    of the raw data file."""))
-    preprocess.add_argument('delimiter', default=',', help=("""String that separates adjacent 
-                                                               values in the raw data"""))
+    preprocess = subcommand.add_parser('convert', help=("""Convert between two file types"""))
+    preprocess.set_defaults(command_name='convert')
+    preprocess.add_argument('in_path', help="""Location of the raw data.""")
+    preprocess.add_argument('out_path', help="""Where to store the output data""")
+    preprocess.add_argument('--clean', action='store_true',
+                            help="""Clean the input data before conversion""")
 
     args = parser.parse_args()
     return args
+
 
 def main(args=None):
     args = parse_arguments()
 
     if args.subcommand == 'clean':
-        clean(args.file_path)
+        print('... Loading data from {}'.format(args.in_path))
+        df = read_data(args.in_path)
+        print('... Cleaning data')
+        df = clean(df)
+        print('... Writing output to {}'.format(args.out_path))
+        df.to_csv(args.out_path)
 
     elif args.subcommand == 'summarize':
-        df = read_data(args.file_path)
+        print('... Loading data from {}'.format(args.in_path))
+        df = read_data(args.in_path)
         print(summarize(df))
 
-    elif args.subcommand == 'preprocess':
-        from lovelyrita.column_dtypes import column_dtypes
-        from lovelyrita.column_maps import column_maps
+    elif args.subcommand == 'convert':
+        from lovelyrita.data import column_map
+        column_map['[latitude]'] = 'latitude'
+        column_map['[longitude]'] = 'longitude'
 
-        preprocess(args.input_path, args.output_path,
-                   column_dtypes[args.column_type],
-                   column_maps[args.column_type],
-                   delimiter=args.delimiter)
+        print('... Loading data from {}'.format(args.in_path))
+        df = read_data(args.in_path, column_map, clean=args.clean)
+
+        out_path = args.out_path
+        if out_path.endswith('.shp'):
+            print('... Converting to GeoDataFrame')
+            df = to_geodataframe(df)
+            print('... Writing output to {}'.format(out_path))
+            write_shapefile(df, out_path)
+        else:
+            raise NotImplementedError('Output file type not supported.')
+
 
 if __name__ == "__main__":
     main()

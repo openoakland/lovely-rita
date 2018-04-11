@@ -1,6 +1,6 @@
-:mod:`data`
-===========
-.. automodule:: lovelyrita.data
+:mod:`addresses`
+================
+.. automodule:: lovelyrita.addresses
    :members:
    :undoc-members:
    :inherited-members:
