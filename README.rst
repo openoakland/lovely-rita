@@ -3,7 +3,7 @@
 Lovely Rita: Insights from Oakland Citation Data
 ================================================
 
-Lovely Rita is set of tools for reading, cleaning, and saving parking parking citation datasets.  The name pays homage to the song, Lovely-Rita `<https://youtu.be/vrnD1liRxWg`_, by the Beatles. 
+Lovely Rita is set of tools for reading, cleaning, and saving parking parking citation datasets.  The name pays homage to the song, `Lovely-Rita <https://youtu.be/vrnD1liRxWg`_, by the Beatles. 
 
 The project is a part of Oakland's Code for America brigade `OpenOakland <http://openoakland.org/>`_. You can read more about the project in this `presentation <https://goo.gl/XiUvkB>`_.
 
