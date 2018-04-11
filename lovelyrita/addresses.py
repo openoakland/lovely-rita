@@ -79,7 +79,7 @@ def parse_P123_main_street(addresses):
     A DataFrame containing street name and street column for those rows that were successfully 
     parsed
     """
-    patt = re.compile(r'^(?P<prefix>[A-Z]+)\-?(?P<street_no>\d+[\-\W]?\d?) '
+    patt = re.compile(r'^(?P<prefix>[A-Z]+)\-?(?P<street_number>\d+[\-\W]?\d?) '
                       '(?P<street_name>[\w\d\s]+)')
     street = addresses.str.extract(patt, expand=True)
     street.dropna(inplace=True)
@@ -116,7 +116,7 @@ def parse_addresses(addresses):
     lot_indices = addresses.str.contains('^[A-Z]LOT.*LOT$')
     street_addresses = addresses.loc[~lot_indices]
 
-    street = pd.DataFrame({'street_name': None, 'street_no': None},
+    street = pd.DataFrame({'street_name': None, 'street_number': None},
                           index=addresses.index)
 
     new_street = parse_123_main_street(street_addresses)
