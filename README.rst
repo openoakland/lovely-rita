@@ -17,7 +17,7 @@ It is good practice to use a `virtual environment <https://virtualenv.pypa.io/en
 
 .. code-block:: bash
 
-    git clone https://github.com/r-b-g-b/lovely-rita.git
+    git clone https://github.com/openoakland/lovely-rita.git
     cd lovely-rita
     pip install -r requirements.txt
     pip install . --user
@@ -130,15 +130,15 @@ Please read `CONTRIBUTING.md <https://gist.github.com/PurpleBooth/b24679402957c6
 Authors
 =======
 
-See our `list of contributors <https://github.com/r-b-g-b/lovely-rita/blob/master/CONTRIBUTORS.md>`_ to learn about the many wonderful people who helped design and build Lovely Rita.
+See our `list of contributors <https://github.com/openoakland/lovely-rita/blob/master/CONTRIBUTORS.md>`_ to learn about the many wonderful people who helped design and build Lovely Rita.
 
 
 License
 =======
 
-This project is licensed under the MIT License - see the `license file <https://github.com/r-b-g-b/lovely-rita/blob/master/LICENSE.txt>`_ for details.
+This project is licensed under the MIT License - see the `license file <https://github.com/openoakland/lovely-rita/blob/master/LICENSE.txt>`_ for details.
 
 Acknowledgments
 ===============
 
-We would like to acknowledge the help of Danielle Dai and the Oakland Department of Transportation for providing the data and invaluable guidance for this project.
+We would like to acknowledge the help of Danielle Dai and the [Oakland Department of Transportation](https://beta.oaklandca.gov/departments/transportation) for providing the data and invaluable guidance for this project.
