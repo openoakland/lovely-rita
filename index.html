@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>Welcome to Lovely Rita’s documentation! &#8212; Lovely Rita  documentation</title>
+    <title>Lovely Rita: Insights from Oakland Citation Data &#8212; Lovely Rita  documentation</title>
     <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <script type="text/javascript" src="_static/documentation_options.js"></script>
@@ -30,12 +30,151 @@
         <div class="bodywrapper">
           <div class="body" role="main">
             
-  <div class="section" id="welcome-to-lovely-rita-s-documentation">
-<h1>Welcome to Lovely Rita’s documentation!<a class="headerlink" href="#welcome-to-lovely-rita-s-documentation" title="Permalink to this headline">¶</a></h1>
-<img alt="_images/parking-meter-2122717_960_720.jpg" src="_images/parking-meter-2122717_960_720.jpg" />
-<p><a class="reference external" href="https://openoakland.github.io/lovely-rita/readme_include.html">Read our Readme here</a></p>
+  <img alt="_images/parking-meter-2122717_960_720.jpg" src="_images/parking-meter-2122717_960_720.jpg" />
+<div class="section" id="lovely-rita-insights-from-oakland-citation-data">
+<h1>Lovely Rita: Insights from Oakland Citation Data<a class="headerlink" href="#lovely-rita-insights-from-oakland-citation-data" title="Permalink to this headline">¶</a></h1>
+<p>Lovely Rita is set of tools for reading, cleaning, and saving parking parking citation datasets.  The name pays homage to the song, <a class="reference external" href="https://youtu.be/vrnD1liRxWg">Lovely-Rita</a>, by the Beatles.</p>
+<p>The project is a part of Oakland’s Code for America brigade <a class="reference external" href="http://openoakland.org/">OpenOakland</a>. You can read more about the project in this <a class="reference external" href="https://goo.gl/XiUvkB">presentation</a>.</p>
+<p>With Lovely Rita, you can load historical parking citation data, clean the data (addresses and dates), geocode (turn addresses into geospatial coordinates), and save cleaned data to shapefiles for GIS analyses.</p>
+<p>Check out our <a class="reference external" href="https://openoakland.github.io/lovely-rita/">documentation</a> for more detail.</p>
+<div class="section" id="installation">
+<h2>Installation<a class="headerlink" href="#installation" title="Permalink to this headline">¶</a></h2>
+<p>It is good practice to use a <a class="reference external" href="https://virtualenv.pypa.io/en/stable/">virtual environment</a>.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git clone https://github.com/openoakland/lovely-rita.git
+<span class="nb">cd</span> lovely-rita
+pip install -r requirements.txt
+pip install . --user
+</pre></div>
+</div>
+</div>
+<div class="section" id="raw-data-format">
+<h2>Raw data format<a class="headerlink" href="#raw-data-format" title="Permalink to this headline">¶</a></h2>
+<p>Raw data should be provided in a <cite>.csv</cite> with the column names (in any order):</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="100%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>ticket_number</td>
+</tr>
+<tr class="row-even"><td>ticket_issue_date</td>
+</tr>
+<tr class="row-odd"><td>ticket_issue_time</td>
+</tr>
+<tr class="row-even"><td>street_name</td>
+</tr>
+<tr class="row-odd"><td>street_name</td>
+</tr>
+<tr class="row-even"><td>street_number</td>
+</tr>
+<tr class="row-odd"><td>street_suffix</td>
+</tr>
+<tr class="row-even"><td>violation_external_code</td>
+</tr>
+<tr class="row-odd"><td>violation_desc_long</td>
+</tr>
+<tr class="row-even"><td>state</td>
+</tr>
+<tr class="row-odd"><td>city</td>
+</tr>
+<tr class="row-even"><td>badge_number</td>
+</tr>
+<tr class="row-odd"><td>fine_amount</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="command-line-interface">
+<h2>Command line interface<a class="headerlink" href="#command-line-interface" title="Permalink to this headline">¶</a></h2>
+<p>Several useful workflows can be run from the command line. Learn about the available workflows using <code class="docutils literal notranslate"><span class="pre">lovelyrita</span> <span class="pre">--help</span></code>. Learn about a specific workflow using <code class="docutils literal notranslate"><span class="pre">lovelyrita</span> <span class="pre">&lt;workflow&gt;</span> <span class="pre">--help</span></code>.</p>
+</div>
+<div class="section" id="python-interface">
+<h2>Python interface<a class="headerlink" href="#python-interface" title="Permalink to this headline">¶</a></h2>
+<p>There is also a python inferface if you want to dive deeper into the data. There are more involved examples in the <a class="reference external" href="https://github.com/openoakland/lovely-rita/tree/master/notebooks">notebooks</a> folder.</p>
+</div>
+<div class="section" id="read-in-the-data">
+<h2>Read in the data<a class="headerlink" href="#read-in-the-data" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">lovelyrita.data</span> <span class="kn">import</span> <span class="n">read_data</span>
+<span class="n">citations</span> <span class="o">-</span> <span class="n">read_data</span><span class="p">(</span><span class="n">data_path</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="clean-the-data">
+<h2>Clean the data<a class="headerlink" href="#clean-the-data" title="Permalink to this headline">¶</a></h2>
+<p>Lovely Rita can also clean and parse addresses and dates.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">lovelyrita.data</span> <span class="kn">import</span> <span class="n">read_data</span>
+<span class="kn">from</span> <span class="nn">lovelyrita.clean</span> <span class="kn">import</span> <span class="n">clean</span>
+<span class="n">citations</span> <span class="o">-</span> <span class="n">read_data</span><span class="p">(</span><span class="n">data_path</span><span class="p">)</span>
+<span class="n">citations</span> <span class="o">-</span> <span class="n">clean</span><span class="p">(</span><span class="n">citations</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="analyze-the-data">
+<h2>Analyze the data<a class="headerlink" href="#analyze-the-data" title="Permalink to this headline">¶</a></h2>
+<ol class="arabic simple">
+<li>Number of citations per zip code</li>
+<li>Time-series, number of citations</li>
+<li>Type of violation by zip code</li>
+</ol>
+</div>
+<div class="section" id="save-the-data">
+<h2>Save the data<a class="headerlink" href="#save-the-data" title="Permalink to this headline">¶</a></h2>
+<p>There is also support for storing the data to shapefiles</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">lovelyrita.data</span> <span class="kn">import</span> <span class="n">write_shapefile</span>
+<span class="n">write_shapefile</span><span class="p">(</span><span class="n">citations</span><span class="p">,</span> <span class="s1">&#39;my-shapefile.shp&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="id1">
+<h2>Documentation<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h2>
+<p>Clone the gh-pages branch</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git clone -b gh-pages http://github.com/openoakland/lovely-rita.git lovely-rita-docs
+</pre></div>
+</div>
+<p>Make changes to docs/source/<a href="#id2"><span class="problematic" id="id3">*</span></a>.rst in master branch.</p>
+<p>Build the docs.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span> docs
+make html
+</pre></div>
+</div>
+<p>Docs are built to ../../lovely-rita-docs/html</p>
+<p>git add -u
+git commit -m “docs message”
+git push origin gh-pages</p>
+</div>
+<div class="section" id="tests">
+<h2>Tests<a class="headerlink" href="#tests" title="Permalink to this headline">¶</a></h2>
+<p>There will be tests.</p>
+</div>
+<div class="section" id="contributing">
+<h2>Contributing<a class="headerlink" href="#contributing" title="Permalink to this headline">¶</a></h2>
+<p>Please read <a class="reference external" href="https://gist.github.com/PurpleBooth/b24679402957c63ec426">CONTRIBUTING.md</a> for details on our code of conduct, and the process for submitting pull requests to us.</p>
+</div>
+<div class="section" id="authors">
+<h2>Authors<a class="headerlink" href="#authors" title="Permalink to this headline">¶</a></h2>
+<p>The many wonderful people who helped design and build Lovely Rita (* denote active contributors):</p>
+<ul class="simple">
+<li><a class="reference external" href="https://github.com/r-b-g-b">Robert Gibboni</a>  aka <code class="docutils literal notranslate"><span class="pre">r-b-g-b</span></code> *</li>
+<li><a class="reference external" href="https://github.com/Atomahawk">Andrew Tom</a> aka <code class="docutils literal notranslate"><span class="pre">atomahawk</span></code> *</li>
+<li><a class="reference external" href="https://github.com/ricky-boebel">Ricky Boebel</a> aka <code class="docutils literal notranslate"><span class="pre">ricky-boebel</span></code> *</li>
+<li><a class="reference external" href="https://github.com/jjia25">Joanna Jia</a> aka <code class="docutils literal notranslate"><span class="pre">jjia25</span></code></li>
+<li><a class="reference external" href="https://github.com/drewerickson">Drew Erickson</a> aka <code class="docutils literal notranslate"><span class="pre">drewerickson</span></code></li>
+<li><a class="reference external" href="https://github.com/Slavster">Slav Sinitsyn</a> aka <code class="docutils literal notranslate"><span class="pre">slavster</span></code></li>
+</ul>
+</div>
+<div class="section" id="license">
+<h2>License<a class="headerlink" href="#license" title="Permalink to this headline">¶</a></h2>
+<p>This project is licensed under the MIT License - see the <a class="reference external" href="https://github.com/openoakland/lovely-rita/blob/master/LICENSE.txt">license file</a> for details.</p>
+</div>
+<div class="section" id="acknowledgments">
+<h2>Acknowledgments<a class="headerlink" href="#acknowledgments" title="Permalink to this headline">¶</a></h2>
+<p>We would like to acknowledge the help of Danielle Dai and the <a class="reference external" href="https://beta.oaklandca.gov/departments/transportation">Oakland Department of Transportation</a> for providing the data and invaluable guidance for this project.</p>
+</div>
+</div>
+<div class="section" id="api">
+<h1>API<a class="headerlink" href="#api" title="Permalink to this headline">¶</a></h1>
+<p>You can learn more about our Python API from the docstrings.</p>
 <div class="toctree-wrapper compound">
-<p class="caption"><span class="caption-text">Modules:</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="addresses.html"><code class="docutils literal notranslate"><span class="pre">addresses</span></code></a></li>
 <li class="toctree-l1"><a class="reference internal" href="clean.html"><code class="docutils literal notranslate"><span class="pre">clean</span></code></a></li>
@@ -64,7 +203,24 @@
         <div class="sphinxsidebarwrapper">
   <h3><a href="#">Table Of Contents</a></h3>
   <ul>
-<li><a class="reference internal" href="#">Welcome to Lovely Rita’s documentation!</a></li>
+<li><a class="reference internal" href="#">Lovely Rita: Insights from Oakland Citation Data</a><ul>
+<li><a class="reference internal" href="#installation">Installation</a></li>
+<li><a class="reference internal" href="#raw-data-format">Raw data format</a></li>
+<li><a class="reference internal" href="#command-line-interface">Command line interface</a></li>
+<li><a class="reference internal" href="#python-interface">Python interface</a></li>
+<li><a class="reference internal" href="#read-in-the-data">Read in the data</a></li>
+<li><a class="reference internal" href="#clean-the-data">Clean the data</a></li>
+<li><a class="reference internal" href="#analyze-the-data">Analyze the data</a></li>
+<li><a class="reference internal" href="#save-the-data">Save the data</a></li>
+<li><a class="reference internal" href="#id1">Documentation</a></li>
+<li><a class="reference internal" href="#tests">Tests</a></li>
+<li><a class="reference internal" href="#contributing">Contributing</a></li>
+<li><a class="reference internal" href="#authors">Authors</a></li>
+<li><a class="reference internal" href="#license">License</a></li>
+<li><a class="reference internal" href="#acknowledgments">Acknowledgments</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#api">API</a></li>
 <li><a class="reference internal" href="#indices-and-tables">Indices and tables</a></li>
 </ul>
 <div class="relations">
