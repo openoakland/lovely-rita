@@ -1,7 +1,7 @@
 .. inclusion-marker-do-not-remove
 
 Lovely Rita: Insights from Oakland Citation Data
-------------------------------------------------
+================================================
 
 Lovely Rita is set of tools for reading, cleaning, and saving parking parking citation datasets.  The name pays homage to the song, `Lovely-Rita <https://youtu.be/vrnD1liRxWg>`_, by the Beatles. 
 
