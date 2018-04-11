@@ -116,7 +116,7 @@ def geocode_citations(citations, rating=10, geocoder=None):
 
     Parameters:
     -----------
-    citations : pandas DataFrame
+    citations : pandas.DataFrame
     rating : int
 
     Returns:
@@ -133,7 +133,13 @@ def geocode_citations(citations, rating=10, geocoder=None):
 
     results = []
     indices = []
-    for index, row in citations.iterrows():
+    try:
+        from progressbar import progressbar
+        iterator = progressbar(citations.iterrows(), max_value=len(citations))
+    except ImportError:
+        iterator = citations.iterrows()
+
+    for index, row in iterator:
         res = geocoder.geocode(row['street'] + ', oakland, ca')
         if res['rating'] < rating:
             indices.append(index)
