@@ -8,15 +8,21 @@ Welcome to Lovely Rita's documentation!
 
 .. image:: parking-meter-2122717_960_720.jpg
 
+`Read our Readme here <https://openoakland.github.io/lovely-rita/readme_include.html>`_
+
 .. toctree::
    :maxdepth: 2
    :caption: Modules:
+
 
    addresses
    clean
    data
    geocode
    utils
+
+
+
 
 
 Indices and tables
