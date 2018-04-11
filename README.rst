@@ -76,7 +76,7 @@ Read in the data
 .. code-block:: python
 
     from lovelyrita.data import read_data
-    citations - read_data(data_path)
+    citations = read_data(data_path)
 
 
 Clean the data
@@ -87,8 +87,8 @@ Lovely Rita can also clean and parse addresses and dates.
 
     from lovelyrita.data import read_data
     from lovelyrita.clean import clean
-    citations - read_data(data_path)
-    citations - clean(citations)
+    citations = read_data(data_path)
+    citations = clean(citations)
 
 
 Analyze the data
