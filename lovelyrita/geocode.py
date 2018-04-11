@@ -2,6 +2,7 @@ import re
 import requests
 import datetime
 from urllib.parse import urlencode
+import numpy as np
 import psycopg2
 import pandas as pd
 from lovelyrita.config import API_KEY
@@ -66,12 +67,12 @@ class Geocoder(object):
 
 
 class PostGISGeocoder(object):
-    def __init__(self, host='172.17.0.3', database='postgres', user='postgres',
-                 password='mysecretpassword'):
+    def __init__(self, host='localhost', port=5432, database='postgres',
+                 user='postgres', password='mysecretpassword'):
         """A PostGIS geocoder
         """
         connection = psycopg2.connect(host=host, database=database,
-                                      user=user, password=password)
+                                      user=user, port=port, password=password)
         self.connection = connection
         self.cursor = connection.cursor()
 
@@ -137,10 +138,6 @@ def geocode_citations(citations, rating=10, geocoder=None):
         if res['rating'] < rating:
             indices.append(index)
             results.append(res)
-        else:
-            print(res)
 
     results = pd.DataFrame(results, index=indices)
     citations.update(results)
-
-    return citations
