@@ -84,14 +84,14 @@ class PostGISGeocoder(object):
 
         Returns
         -------
-        A dictionary containing keys latitude, longitude, street_no, street_name, street_type, and 
+        A dictionary containing keys latitude, longitude, street_number, street_name, street_type, and 
         rating (a numeric value indicating how uncertain the geocoding is)
         """
         patt = "[" + re.escape("()\'+") + "]"
         address = re.sub(patt, '', address)
 
         columns = ['rating', 'longitude', 'latitude',
-                   'street_no', 'street_name', 'street_type']
+                   'street_number', 'street_name', 'street_suffix']
 
         query = ("""SELECT g.rating, ST_X(g.geomout) As lon, ST_Y(g.geomout) As lat, """
                  """(addy).address As stno, (addy).streetname As street, """
@@ -110,20 +110,37 @@ class PostGISGeocoder(object):
         return result
 
 
-def save_addresses(addresses, path):
-    with open(path, 'w') as f:
-        f.write('\n'.join(addresses))
+def geocode_citations(citations, rating=10, geocoder=None):
+    """Geocode a DataFrame of citations
+    
+    Parameters:
+    -----------
+    citations : pandas DataFrame
+    rating : int
+    
+    Returns:
+    --------
+    A DataFrame with geocoded latitude and longitude
+    """
+    if 'latitude' not in citations.columns:
+        citations['latitude'] = np.nan
+    if 'longitude' not in citations.columns:
+        citations['longitude'] = np.nan
 
+    if geocoder is None:
+        geocoder = PostGISGeocoder()
 
-def load_addresses(path):
-    with open(path, 'r') as f:
-        addresses = f.read().split('\n')
-    return addresses
+    results = []
+    indices = []
+    for index, row in citations.iterrows():
+        res = geocoder.geocode(row['street'] + ', oakland, ca')
+        if res['rating'] < rating:
+            indices.append(index)
+            results.append(res)
+        else:
+            print(res)
 
+    results = pd.DataFrame(results, index=indices)
+    citations.update(results)
 
-def save_geocodes(geocodes, path):
-    geocodes.to_hdf(path, 'geocodes')
-
-
-def load_geocodes(path):
-    return pd.read_hdf(path)
+    return citations
