@@ -130,7 +130,13 @@ Please read `CONTRIBUTING.md <https://gist.github.com/PurpleBooth/b24679402957c6
 Authors
 =======
 
-See our `list of contributors <https://github.com/openoakland/lovely-rita/blob/master/CONTRIBUTORS.md>`_ to learn about the many wonderful people who helped design and build Lovely Rita.
+The many wonderful people who helped design and build Lovely Rita (* denote active contributors):
+- [Robert Gibboni](https://github.com/r-b-g-b)* aka `r-b-g-b`
+- [Andrew Tom](https://github.com/Atomahawk)* aka `atomahawk`
+- [Ricky Boebel](https://github.com/ricky-boebel)* aka `ricky-boebel`
+- [Joanna Jia](https://github.com/jjia25) aka `jjia25`
+- [Drew Erickson](https://github.com/drewerickson) aka `drewerickson`
+- [Slav Sinitsyn](https://github.com/Slavster) aka `slavster`
 
 
 License
