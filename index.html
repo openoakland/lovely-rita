@@ -95,7 +95,7 @@ pip install . --user
 <div class="section" id="read-in-the-data">
 <h2>Read in the data<a class="headerlink" href="#read-in-the-data" title="Permalink to this headline">¶</a></h2>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">lovelyrita.data</span> <span class="kn">import</span> <span class="n">read_data</span>
-<span class="n">citations</span> <span class="o">-</span> <span class="n">read_data</span><span class="p">(</span><span class="n">data_path</span><span class="p">)</span>
+<span class="n">citations</span> <span class="o">=</span> <span class="n">read_data</span><span class="p">(</span><span class="n">data_path</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -104,8 +104,8 @@ pip install . --user
 <p>Lovely Rita can also clean and parse addresses and dates.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">lovelyrita.data</span> <span class="kn">import</span> <span class="n">read_data</span>
 <span class="kn">from</span> <span class="nn">lovelyrita.clean</span> <span class="kn">import</span> <span class="n">clean</span>
-<span class="n">citations</span> <span class="o">-</span> <span class="n">read_data</span><span class="p">(</span><span class="n">data_path</span><span class="p">)</span>
-<span class="n">citations</span> <span class="o">-</span> <span class="n">clean</span><span class="p">(</span><span class="n">citations</span><span class="p">)</span>
+<span class="n">citations</span> <span class="o">=</span> <span class="n">read_data</span><span class="p">(</span><span class="n">data_path</span><span class="p">)</span>
+<span class="n">citations</span> <span class="o">=</span> <span class="n">clean</span><span class="p">(</span><span class="n">citations</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
