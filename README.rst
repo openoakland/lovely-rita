@@ -3,7 +3,9 @@
 Lovely Rita: Insights from Oakland Citation Data
 ================================================
 
-Lovely Rita is set of tools for reading, cleaning, and saving parking parking citation datasets. The project is a part of Oakland's Code for America brigade `OpenOakland <http://openoakland.org/>`_. You can read more about the project in this `presentation <https://goo.gl/XiUvkB>`_.
+Lovely Rita is set of tools for reading, cleaning, and saving parking parking citation datasets.  The name pays homage to the song, ``Lovely-Rita``, by the Beatles. 
+
+The project is a part of Oakland's Code for America brigade `OpenOakland <http://openoakland.org/>`_. You can read more about the project in this `presentation <https://goo.gl/XiUvkB>`_.
 
 With Lovely Rita, you can load historical parking citation data, clean the data (addresses and dates), geocode (turn addresses into geospatial coordinates), and save cleaned data to shapefiles for GIS analyses.
 
