@@ -4,6 +4,7 @@ import pandas as pd
 from shapely.geometry import Point
 import geopandas
 from lovelyrita.clean import clean as clean_data
+from lovelyrita.config import VALID_COLUMN_NAMES as valid_column_names
 
 
 def read_data(paths, usecols=None, delimiter=',', clean=False):
@@ -26,6 +27,10 @@ def read_data(paths, usecols=None, delimiter=',', clean=False):
 
     dataframe = []
     for path in paths:
+
+        if usecols is None:
+            usecols = get_column_names(path)
+
         df = pd.read_csv(path, dtype='str', usecols=usecols,
                          delimiter=delimiter)
 
@@ -39,6 +44,21 @@ def read_data(paths, usecols=None, delimiter=',', clean=False):
     dataframe = pd.concat(dataframe).reset_index(drop=True)
 
     return dataframe
+
+
+def get_column_names(path, valid_column_names=valid_column_names):
+    """Return the intersection of columns present in the dataset and valid column names
+
+    Parameters:
+    -----------
+    path : str
+    valid_column_names : list of st
+
+    Return:
+    -------
+    """
+    column_names = pd.read_csv(path, nrows=1)
+    return [n for n in column_names if n in valid_column_names]
 
 
 def to_geodataframe(dataframe, copy=False, drop_null_geometry=True,
