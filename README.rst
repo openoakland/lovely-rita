@@ -131,6 +131,7 @@ Authors
 =======
 
 The many wonderful people who helped design and build Lovely Rita (* denote active contributors):
+
 - [Robert Gibboni](https://github.com/r-b-g-b)* aka `r-b-g-b`
 - [Andrew Tom](https://github.com/Atomahawk)* aka `atomahawk`
 - [Ricky Boebel](https://github.com/ricky-boebel)* aka `ricky-boebel`
