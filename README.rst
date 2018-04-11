@@ -148,4 +148,4 @@ This project is licensed under the MIT License - see the `license file <https://
 Acknowledgments
 ===============
 
-We would like to acknowledge the help of Danielle Dai and the [Oakland Department of Transportation](https://beta.oaklandca.gov/departments/transportation) for providing the data and invaluable guidance for this project.
+We would like to acknowledge the help of Danielle Dai and the `Oakland Department of Transportation <https://beta.oaklandca.gov/departments/transportation>`_ for providing the data and invaluable guidance for this project.
