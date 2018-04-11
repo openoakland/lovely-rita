@@ -111,7 +111,7 @@
 <span class="sd">    A DataFrame containing street name and street column for those rows that were successfully </span>
 <span class="sd">    parsed</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">patt</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;^(?P&lt;prefix&gt;[A-Z]+)\-?(?P&lt;street_no&gt;\d+[\-\W]?\d?) &#39;</span>
+    <span class="n">patt</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;^(?P&lt;prefix&gt;[A-Z]+)\-?(?P&lt;street_number&gt;\d+[\-\W]?\d?) &#39;</span>
                       <span class="s1">&#39;(?P&lt;street_name&gt;[\w\d\s]+)&#39;</span><span class="p">)</span>
     <span class="n">street</span> <span class="o">=</span> <span class="n">addresses</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">extract</span><span class="p">(</span><span class="n">patt</span><span class="p">,</span> <span class="n">expand</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
     <span class="n">street</span><span class="o">.</span><span class="n">dropna</span><span class="p">(</span><span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
@@ -148,7 +148,7 @@
     <span class="n">lot_indices</span> <span class="o">=</span> <span class="n">addresses</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">contains</span><span class="p">(</span><span class="s1">&#39;^[A-Z]LOT.*LOT$&#39;</span><span class="p">)</span>
     <span class="n">street_addresses</span> <span class="o">=</span> <span class="n">addresses</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="o">~</span><span class="n">lot_indices</span><span class="p">]</span>
 
-    <span class="n">street</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span><span class="s1">&#39;street_name&#39;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span> <span class="s1">&#39;street_no&#39;</span><span class="p">:</span> <span class="kc">None</span><span class="p">},</span>
+    <span class="n">street</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span><span class="s1">&#39;street_name&#39;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span> <span class="s1">&#39;street_number&#39;</span><span class="p">:</span> <span class="kc">None</span><span class="p">},</span>
                           <span class="n">index</span><span class="o">=</span><span class="n">addresses</span><span class="o">.</span><span class="n">index</span><span class="p">)</span>
 
     <span class="n">new_street</span> <span class="o">=</span> <span class="n">parse_123_main_street</span><span class="p">(</span><span class="n">street_addresses</span><span class="p">)</span>

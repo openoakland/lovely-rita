@@ -34,7 +34,7 @@
 <span id="geocode"></span><h1><code class="xref py py-mod docutils literal notranslate"><span class="pre">geocode</span></code><a class="headerlink" href="#module-lovelyrita.geocode" title="Permalink to this headline">¶</a></h1>
 <dl class="class">
 <dt id="lovelyrita.geocode.Geocoder">
-<em class="property">class </em><code class="descclassname">lovelyrita.geocode.</code><code class="descname">Geocoder</code><span class="sig-paren">(</span><em>geocodes=None</em>, <em>api_url='https://maps.googleapis.com/maps/api/geocode/'</em>, <em>api_key='&lt;&lt;YOUR GOOGLE API KEY&gt;&gt;'</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/lovelyrita/geocode.html#Geocoder"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#lovelyrita.geocode.Geocoder" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="descclassname">lovelyrita.geocode.</code><code class="descname">Geocoder</code><span class="sig-paren">(</span><em>geocodes=None</em>, <em>api_url='https://maps.googleapis.com/maps/api/geocode/'</em>, <em>api_key=''</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/lovelyrita/geocode.html#Geocoder"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#lovelyrita.geocode.Geocoder" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
 <p class="rubric">Methods</p>
 <table border="1" class="longtable docutils">
@@ -45,12 +45,6 @@
 <tbody valign="top">
 <tr class="row-odd"><td><a class="reference internal" href="#lovelyrita.geocode.Geocoder.geocode" title="lovelyrita.geocode.Geocoder.geocode"><code class="xref py py-obj docutils literal notranslate"><span class="pre">geocode</span></code></a>(address)</td>
 <td>Pull data from Google Maps API</td>
-</tr>
-<tr class="row-even"><td><a class="reference internal" href="#lovelyrita.geocode.Geocoder.load" title="lovelyrita.geocode.Geocoder.load"><code class="xref py py-obj docutils literal notranslate"><span class="pre">load</span></code></a>(geocode_path)</td>
-<td></td>
-</tr>
-<tr class="row-odd"><td><a class="reference internal" href="#lovelyrita.geocode.Geocoder.save" title="lovelyrita.geocode.Geocoder.save"><code class="xref py py-obj docutils literal notranslate"><span class="pre">save</span></code></a>(geocode_path)</td>
-<td></td>
 </tr>
 </tbody>
 </table>
@@ -68,37 +62,50 @@
 </table>
 </dd></dl>
 
-<dl class="classmethod">
-<dt id="lovelyrita.geocode.Geocoder.load">
-<em class="property">classmethod </em><code class="descname">load</code><span class="sig-paren">(</span><em>geocode_path</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/lovelyrita/geocode.html#Geocoder.load"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#lovelyrita.geocode.Geocoder.load" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+</dd></dl>
 
+<dl class="class">
+<dt id="lovelyrita.geocode.PostGISGeocoder">
+<em class="property">class </em><code class="descclassname">lovelyrita.geocode.</code><code class="descname">PostGISGeocoder</code><span class="sig-paren">(</span><em>host='172.17.0.3'</em>, <em>port='5432'</em>, <em>database='postgres'</em>, <em>user='postgres'</em>, <em>password='mysecretpassword'</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/lovelyrita/geocode.html#PostGISGeocoder"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#lovelyrita.geocode.PostGISGeocoder" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p class="rubric">Methods</p>
+<table border="1" class="longtable docutils">
+<colgroup>
+<col width="10%" />
+<col width="90%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><a class="reference internal" href="#lovelyrita.geocode.PostGISGeocoder.geocode" title="lovelyrita.geocode.PostGISGeocoder.geocode"><code class="xref py py-obj docutils literal notranslate"><span class="pre">geocode</span></code></a>(address)</td>
+<td>Get the latitude and longitude of an address</td>
+</tr>
+</tbody>
+</table>
 <dl class="method">
-<dt id="lovelyrita.geocode.Geocoder.save">
-<code class="descname">save</code><span class="sig-paren">(</span><em>geocode_path</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/lovelyrita/geocode.html#Geocoder.save"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#lovelyrita.geocode.Geocoder.save" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dt id="lovelyrita.geocode.PostGISGeocoder.geocode">
+<code class="descname">geocode</code><span class="sig-paren">(</span><em>address</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/lovelyrita/geocode.html#PostGISGeocoder.geocode"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#lovelyrita.geocode.PostGISGeocoder.geocode" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the latitude and longitude of an address</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>address</strong> : str</p>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">A dictionary containing keys latitude, longitude, street_number, street_name, street_type, and</p>
+<p class="last">rating (a numeric value indicating how uncertain the geocoding is)</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
 
 </dd></dl>
 
 <dl class="function">
-<dt id="lovelyrita.geocode.load_addresses">
-<code class="descclassname">lovelyrita.geocode.</code><code class="descname">load_addresses</code><span class="sig-paren">(</span><em>path</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/lovelyrita/geocode.html#load_addresses"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#lovelyrita.geocode.load_addresses" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="function">
-<dt id="lovelyrita.geocode.load_geocodes">
-<code class="descclassname">lovelyrita.geocode.</code><code class="descname">load_geocodes</code><span class="sig-paren">(</span><em>path</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/lovelyrita/geocode.html#load_geocodes"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#lovelyrita.geocode.load_geocodes" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="function">
-<dt id="lovelyrita.geocode.save_addresses">
-<code class="descclassname">lovelyrita.geocode.</code><code class="descname">save_addresses</code><span class="sig-paren">(</span><em>addresses</em>, <em>path</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/lovelyrita/geocode.html#save_addresses"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#lovelyrita.geocode.save_addresses" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="function">
-<dt id="lovelyrita.geocode.save_geocodes">
-<code class="descclassname">lovelyrita.geocode.</code><code class="descname">save_geocodes</code><span class="sig-paren">(</span><em>geocodes</em>, <em>path</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/lovelyrita/geocode.html#save_geocodes"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#lovelyrita.geocode.save_geocodes" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dt id="lovelyrita.geocode.geocode_citations">
+<code class="descclassname">lovelyrita.geocode.</code><code class="descname">geocode_citations</code><span class="sig-paren">(</span><em>citations</em>, <em>rating=10</em>, <em>geocoder=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/lovelyrita/geocode.html#geocode_citations"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#lovelyrita.geocode.geocode_citations" title="Permalink to this definition">¶</a></dt>
+<dd><p>Geocode a DataFrame of citations</p>
+</dd></dl>
 
 </div>
 

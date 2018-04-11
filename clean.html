@@ -50,14 +50,34 @@
 </dd></dl>
 
 <dl class="function">
+<dt id="lovelyrita.clean.clean_voided">
+<code class="descclassname">lovelyrita.clean.</code><code class="descname">clean_voided</code><span class="sig-paren">(</span><em>dataframe</em>, <em>add_indicator=True</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/lovelyrita/clean.html#clean_voided"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#lovelyrita.clean.clean_voided" title="Permalink to this definition">¶</a></dt>
+<dd><p>Detect voided citations</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>dataframe</strong> : pandas.DataFrame</p>
+<p><strong>add_indicator</strong> : bool</p>
+<blockquote class="last">
+<div><p>If True, add a column <cite>voided</cite> to the dataframe that indicates whether the ticket was 
+voided or not.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
 <dt id="lovelyrita.clean.convert_dollar_to_float">
 <code class="descclassname">lovelyrita.clean.</code><code class="descname">convert_dollar_to_float</code><span class="sig-paren">(</span><em>dollars</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/lovelyrita/clean.html#convert_dollar_to_float"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#lovelyrita.clean.convert_dollar_to_float" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="function">
-<dt id="lovelyrita.clean.drop_void">
-<code class="descclassname">lovelyrita.clean.</code><code class="descname">drop_void</code><span class="sig-paren">(</span><em>dataframe</em>, <em>inplace=True</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/lovelyrita/clean.html#drop_void"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#lovelyrita.clean.drop_void" title="Permalink to this definition">¶</a></dt>
-<dd><p>Drop voided citations</p>
+<dt id="lovelyrita.clean.drop_null">
+<code class="descclassname">lovelyrita.clean.</code><code class="descname">drop_null</code><span class="sig-paren">(</span><em>dataframe</em>, <em>inplace=True</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/lovelyrita/clean.html#drop_null"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#lovelyrita.clean.drop_null" title="Permalink to this definition">¶</a></dt>
+<dd><p>Drop null tickets</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -66,7 +86,7 @@
 <p><strong>inplace</strong> : bool</p>
 </td>
 </tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">If <cite>inplace</cite> is False, return the dataframe with voided citations dropped</p>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">If <cite>inplace</cite> is False, returns the input dataframe with the null citations removed.</p>
 </td>
 </tr>
 </tbody>

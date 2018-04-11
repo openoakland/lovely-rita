@@ -115,11 +115,11 @@
     <span class="n">datetime_formats</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;%m/</span><span class="si">%d</span><span class="s1">/%y %H:%M:%S&#39;</span><span class="p">,</span> <span class="s1">&#39;%m/</span><span class="si">%d</span><span class="s1">/%y %H:%M&#39;</span><span class="p">]</span>
     <span class="k">for</span> <span class="n">datetime_format</span> <span class="ow">in</span> <span class="n">datetime_formats</span><span class="p">:</span>
         <span class="k">try</span><span class="p">:</span>
-            <span class="n">dt</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">to_datetime</span><span class="p">(</span><span class="n">dt</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="nb">format</span><span class="o">=</span><span class="n">datetime_format</span><span class="p">)</span>
+            <span class="n">dt</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">to_datetime</span><span class="p">(</span><span class="n">dt</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="nb">format</span><span class="o">=</span><span class="n">datetime_format</span><span class="p">)</span>
             <span class="k">return</span> <span class="n">datetime_format</span>
         <span class="k">except</span> <span class="ne">ValueError</span><span class="p">:</span>
             <span class="k">pass</span></div>
-    <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s1">&#39;No datetime format detected for </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">dt</span><span class="p">))</span>
+    <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s1">&#39;No datetime format detected for </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">dt</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="mi">0</span><span class="p">]))</span>
 
 
 <div class="viewcode-block" id="get_datetime"><a class="viewcode-back" href="../../clean.html#lovelyrita.clean.get_datetime">[docs]</a><span class="k">def</span> <span class="nf">get_datetime</span><span class="p">(</span><span class="n">dataframe</span><span class="p">):</span>
@@ -139,8 +139,8 @@
     <span class="k">return</span> <span class="n">pd</span><span class="o">.</span><span class="n">to_datetime</span><span class="p">(</span><span class="n">dt</span><span class="p">,</span> <span class="nb">format</span><span class="o">=</span><span class="n">datetime_format</span><span class="p">)</span>
 
 
-<div class="viewcode-block" id="drop_void"><a class="viewcode-back" href="../../clean.html#lovelyrita.clean.drop_void">[docs]</a><span class="k">def</span> <span class="nf">drop_void</span><span class="p">(</span><span class="n">dataframe</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Drop voided citations</span>
+<div class="viewcode-block" id="drop_null"><a class="viewcode-back" href="../../clean.html#lovelyrita.clean.drop_null">[docs]</a><span class="k">def</span> <span class="nf">drop_null</span><span class="p">(</span><span class="n">dataframe</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Drop null tickets</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
@@ -149,15 +149,28 @@
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
-<span class="sd">    If `inplace` is False, return the dataframe with voided citations dropped</span>
+<span class="sd">    If `inplace` is False, returns the input dataframe with the null citations removed.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">null_indices</span> <span class="o">=</span> <span class="n">dataframe</span><span class="o">.</span><span class="n">ticket_number</span><span class="o">.</span><span class="n">isnull</span><span class="p">()</span>
+    <span class="k">if</span> <span class="n">inplace</span><span class="p">:</span>
+        <span class="n">dataframe</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="n">null_indices</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span></div>
+        <span class="k">return</span> <span class="n">dataframe</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="n">null_indices</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+
+
+<div class="viewcode-block" id="clean_voided"><a class="viewcode-back" href="../../clean.html#lovelyrita.clean.clean_voided">[docs]</a><span class="k">def</span> <span class="nf">clean_voided</span><span class="p">(</span><span class="n">dataframe</span><span class="p">,</span> <span class="n">add_indicator</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Detect voided citations</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    dataframe : pandas.DataFrame</span>
+<span class="sd">    add_indicator : bool</span>
+<span class="sd">        If True, add a column `voided` to the dataframe that indicates whether the ticket was </span>
+<span class="sd">        voided or not.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">void_indices</span> <span class="o">=</span> <span class="n">dataframe</span><span class="o">.</span><span class="n">street</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">contains</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;^Z?VOIDZ?&#39;</span><span class="p">)</span>
-    <span class="n">null_indices</span> <span class="o">=</span> <span class="n">dataframe</span><span class="o">.</span><span class="n">ticket_number</span><span class="o">.</span><span class="n">isnull</span><span class="p">()</span>
-    <span class="n">drop_indices</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">logical_or</span><span class="p">(</span><span class="n">void_indices</span><span class="p">,</span> <span class="n">null_indices</span><span class="p">)</span><span class="o">.</span><span class="n">nonzero</span><span class="p">()[</span><span class="mi">0</span><span class="p">]</span>
-    <span class="k">if</span> <span class="n">inplace</span><span class="p">:</span>
-        <span class="n">dataframe</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="n">drop_indices</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-    <span class="k">else</span><span class="p">:</span></div>
-        <span class="k">return</span> <span class="n">dataframe</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="n">drop_indices</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+    <span class="n">dataframe</span><span class="p">[</span><span class="s1">&#39;street&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">dataframe</span><span class="o">.</span><span class="n">street</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;^Z?VOIDZ?&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">)</span></div>
+    <span class="n">dataframe</span><span class="p">[</span><span class="s1">&#39;voided&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">void_indices</span>
 
 
 <div class="viewcode-block" id="clean"><a class="viewcode-back" href="../../clean.html#lovelyrita.clean.clean">[docs]</a><span class="k">def</span> <span class="nf">clean</span><span class="p">(</span><span class="n">dataframe</span><span class="p">):</span>
@@ -172,7 +185,8 @@
 <span class="sd">    A cleaned DataFrame</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="n">drop_void</span><span class="p">(</span><span class="n">dataframe</span><span class="p">)</span>
+    <span class="n">drop_null</span><span class="p">(</span><span class="n">dataframe</span><span class="p">)</span>
+    <span class="n">clean_voided</span><span class="p">(</span><span class="n">dataframe</span><span class="p">)</span>
 
     <span class="n">replace</span><span class="p">(</span><span class="n">dataframe</span><span class="o">.</span><span class="n">street</span><span class="p">)</span>
 

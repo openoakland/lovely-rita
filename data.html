@@ -34,6 +34,12 @@
   <div class="section" id="module-lovelyrita.data">
 <span id="data"></span><h1><code class="xref py py-mod docutils literal notranslate"><span class="pre">data</span></code><a class="headerlink" href="#module-lovelyrita.data" title="Permalink to this headline">¶</a></h1>
 <dl class="function">
+<dt id="lovelyrita.data.get_column_names">
+<code class="descclassname">lovelyrita.data.</code><code class="descname">get_column_names</code><span class="sig-paren">(</span><em>path, valid_column_names=['badge_number', 'city', 'fine_amount', 'latitude', 'longitude', 'state', 'street', 'street_name', 'street_number', 'street_suffix', 'ticket_issue_date', 'ticket_issue_time', 'ticket_number', 'violation_desc_long', 'violation_external_code', 'voided']</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/lovelyrita/data.html#get_column_names"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#lovelyrita.data.get_column_names" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the intersection of columns present in the dataset and valid column names</p>
+</dd></dl>
+
+<dl class="function">
 <dt id="lovelyrita.data.get_sample_value">
 <code class="descclassname">lovelyrita.data.</code><code class="descname">get_sample_value</code><span class="sig-paren">(</span><em>series</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/lovelyrita/data.html#get_sample_value"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#lovelyrita.data.get_sample_value" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return a sample value from a series</p>
@@ -51,7 +57,7 @@
 
 <dl class="function">
 <dt id="lovelyrita.data.read_data">
-<code class="descclassname">lovelyrita.data.</code><code class="descname">read_data</code><span class="sig-paren">(</span><em>paths</em>, <em>column_map={'badge__': 'badge_number'</em>, <em>'city': 'city'</em>, <em>'fine_amount': 'fine_amount'</em>, <em>'state': 'state'</em>, <em>'street': 'street'</em>, <em>'street_name': 'street_name'</em>, <em>'street_no': 'street_no'</em>, <em>'street_suffix': 'street_suffix'</em>, <em>'ticket_issue_date': 'ticket_issue_date'</em>, <em>'ticket_issue_time': 'ticket_issue_time'</em>, <em>'ticket_number': 'ticket_number'</em>, <em>'violation_desc_long': 'violation_desc_long'</em>, <em>'violation_external_code': 'violation_external_code'}</em>, <em>delimiter='</em>, <em>'</em>, <em>clean=False</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/lovelyrita/data.html#read_data"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#lovelyrita.data.read_data" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">lovelyrita.data.</code><code class="descname">read_data</code><span class="sig-paren">(</span><em>paths</em>, <em>usecols=None</em>, <em>delimiter='</em>, <em>'</em>, <em>clean=False</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/lovelyrita/data.html#read_data"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#lovelyrita.data.read_data" title="Permalink to this definition">¶</a></dt>
 <dd><p>Load data from a list of file paths.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -64,10 +70,6 @@
 <p><strong>dtype</strong> : dict</p>
 <blockquote>
 <div><p>A dict containing key (column name) and value (data type)</p>
-</div></blockquote>
-<p><strong>column_map</strong> : dict</p>
-<blockquote>
-<div><p>A dict containing key, original column name, and value, output column name</p>
 </div></blockquote>
 <p><strong>delimiter</strong> : str</p>
 </td>
@@ -99,8 +101,8 @@
 </dd></dl>
 
 <dl class="function">
-<dt id="lovelyrita.data.to_geopandas">
-<code class="descclassname">lovelyrita.data.</code><code class="descname">to_geopandas</code><span class="sig-paren">(</span><em>dataframe</em>, <em>copy=False</em>, <em>drop_null_geometry=True</em>, <em>projection='epsg:4326'</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/lovelyrita/data.html#to_geopandas"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#lovelyrita.data.to_geopandas" title="Permalink to this definition">¶</a></dt>
+<dt id="lovelyrita.data.to_geodataframe">
+<code class="descclassname">lovelyrita.data.</code><code class="descname">to_geodataframe</code><span class="sig-paren">(</span><em>dataframe</em>, <em>copy=False</em>, <em>drop_null_geometry=True</em>, <em>projection='epsg:4326'</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/lovelyrita/data.html#to_geodataframe"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#lovelyrita.data.to_geodataframe" title="Permalink to this definition">¶</a></dt>
 <dd><p>Convert a pandas DataFrame to geopandas DataFrame.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />

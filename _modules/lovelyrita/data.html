@@ -36,24 +36,10 @@
 <span class="kn">from</span> <span class="nn">shapely.geometry</span> <span class="k">import</span> <span class="n">Point</span>
 <span class="kn">import</span> <span class="nn">geopandas</span>
 <span class="kn">from</span> <span class="nn">lovelyrita.clean</span> <span class="k">import</span> <span class="n">clean</span> <span class="k">as</span> <span class="n">clean_data</span>
+<span class="kn">from</span> <span class="nn">lovelyrita.config</span> <span class="k">import</span> <span class="n">VALID_COLUMN_NAMES</span> <span class="k">as</span> <span class="n">valid_column_names</span>
 
 
-<span class="n">column_map</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;street&quot;</span><span class="p">:</span> <span class="s1">&#39;street&#39;</span><span class="p">,</span>
-              <span class="s2">&quot;city&quot;</span><span class="p">:</span> <span class="s1">&#39;city&#39;</span><span class="p">,</span>
-              <span class="s2">&quot;state&quot;</span><span class="p">:</span> <span class="s1">&#39;state&#39;</span><span class="p">,</span>
-              <span class="s2">&quot;ticket_number&quot;</span><span class="p">:</span> <span class="s1">&#39;ticket_number&#39;</span><span class="p">,</span>
-              <span class="s2">&quot;ticket_issue_date&quot;</span><span class="p">:</span> <span class="s1">&#39;ticket_issue_date&#39;</span><span class="p">,</span>
-              <span class="s2">&quot;ticket_issue_time&quot;</span><span class="p">:</span> <span class="s1">&#39;ticket_issue_time&#39;</span><span class="p">,</span>
-              <span class="s2">&quot;violation_external_code&quot;</span><span class="p">:</span> <span class="s1">&#39;violation_external_code&#39;</span><span class="p">,</span>
-              <span class="s2">&quot;violation_desc_long&quot;</span><span class="p">:</span> <span class="s1">&#39;violation_desc_long&#39;</span><span class="p">,</span>
-              <span class="s2">&quot;street_no&quot;</span><span class="p">:</span> <span class="s1">&#39;street_no&#39;</span><span class="p">,</span>
-              <span class="s2">&quot;street_name&quot;</span><span class="p">:</span> <span class="s1">&#39;street_name&#39;</span><span class="p">,</span>
-              <span class="s2">&quot;street_suffix&quot;</span><span class="p">:</span> <span class="s1">&#39;street_suffix&#39;</span><span class="p">,</span>
-              <span class="s2">&quot;fine_amount&quot;</span><span class="p">:</span> <span class="s1">&#39;fine_amount&#39;</span><span class="p">,</span>
-              <span class="s2">&quot;badge__&quot;</span><span class="p">:</span> <span class="s1">&#39;badge_number&#39;</span><span class="p">}</span>
-
-
-<div class="viewcode-block" id="read_data"><a class="viewcode-back" href="../../data.html#lovelyrita.data.read_data">[docs]</a><span class="k">def</span> <span class="nf">read_data</span><span class="p">(</span><span class="n">paths</span><span class="p">,</span> <span class="n">column_map</span><span class="o">=</span><span class="n">column_map</span><span class="p">,</span> <span class="n">delimiter</span><span class="o">=</span><span class="s1">&#39;,&#39;</span><span class="p">,</span> <span class="n">clean</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+<div class="viewcode-block" id="read_data"><a class="viewcode-back" href="../../data.html#lovelyrita.data.read_data">[docs]</a><span class="k">def</span> <span class="nf">read_data</span><span class="p">(</span><span class="n">paths</span><span class="p">,</span> <span class="n">usecols</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">delimiter</span><span class="o">=</span><span class="s1">&#39;,&#39;</span><span class="p">,</span> <span class="n">clean</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Load data from a list of file paths.</span>
 
 <span class="sd">    Parameters</span>
@@ -62,8 +48,6 @@
 <span class="sd">        A list of file paths to the data to be loaded</span>
 <span class="sd">    dtype : dict</span>
 <span class="sd">        A dict containing key (column name) and value (data type)</span>
-<span class="sd">    column_map : dict</span>
-<span class="sd">        A dict containing key, original column name, and value, output column name</span>
 <span class="sd">    delimiter : str</span>
 
 <span class="sd">    Returns</span>
@@ -73,17 +57,14 @@
     <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">paths</span><span class="p">,</span> <span class="p">(</span><span class="nb">tuple</span><span class="p">,</span> <span class="nb">list</span><span class="p">)):</span>
         <span class="n">paths</span> <span class="o">=</span> <span class="p">[</span><span class="n">paths</span><span class="p">,</span> <span class="p">]</span>
 
-    <span class="k">if</span> <span class="n">column_map</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="n">usecols</span> <span class="o">=</span> <span class="kc">None</span>
-    <span class="k">else</span><span class="p">:</span>
-        <span class="n">usecols</span> <span class="o">=</span> <span class="n">column_map</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span>
-
     <span class="n">dataframe</span> <span class="o">=</span> <span class="p">[]</span>
     <span class="k">for</span> <span class="n">path</span> <span class="ow">in</span> <span class="n">paths</span><span class="p">:</span>
-        <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="s1">&#39;str&#39;</span><span class="p">,</span> <span class="n">usecols</span><span class="o">=</span><span class="n">usecols</span><span class="p">,</span> <span class="n">delimiter</span><span class="o">=</span><span class="n">delimiter</span><span class="p">)</span>
 
-        <span class="k">if</span> <span class="n">column_map</span><span class="p">:</span>
-            <span class="n">df</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="n">column_map</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">usecols</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">usecols</span> <span class="o">=</span> <span class="n">get_column_names</span><span class="p">(</span><span class="n">path</span><span class="p">)</span>
+
+        <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="s1">&#39;str&#39;</span><span class="p">,</span> <span class="n">usecols</span><span class="o">=</span><span class="n">usecols</span><span class="p">,</span>
+                         <span class="n">delimiter</span><span class="o">=</span><span class="n">delimiter</span><span class="p">)</span>
 
         <span class="n">df</span><span class="p">[</span><span class="s1">&#39;street&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;street&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">strip</span><span class="p">(</span><span class="s1">&#39; &#39;</span><span class="p">)</span>
 
@@ -97,8 +78,23 @@
     <span class="k">return</span> <span class="n">dataframe</span>
 
 
-<div class="viewcode-block" id="to_geopandas"><a class="viewcode-back" href="../../data.html#lovelyrita.data.to_geopandas">[docs]</a><span class="k">def</span> <span class="nf">to_geopandas</span><span class="p">(</span><span class="n">dataframe</span><span class="p">,</span> <span class="n">copy</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">drop_null_geometry</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
-                 <span class="n">projection</span><span class="o">=</span><span class="s1">&#39;epsg:4326&#39;</span><span class="p">):</span>
+<div class="viewcode-block" id="get_column_names"><a class="viewcode-back" href="../../data.html#lovelyrita.data.get_column_names">[docs]</a><span class="k">def</span> <span class="nf">get_column_names</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">valid_column_names</span><span class="o">=</span><span class="n">valid_column_names</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Return the intersection of columns present in the dataset and valid column names</span>
+
+<span class="sd">    Parameters:</span>
+<span class="sd">    -----------</span>
+<span class="sd">    path : str</span>
+<span class="sd">    valid_column_names : list of st</span>
+
+<span class="sd">    Return:</span>
+<span class="sd">    -------</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">column_names</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">nrows</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span></div>
+    <span class="k">return</span> <span class="p">[</span><span class="n">n</span> <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="n">column_names</span> <span class="k">if</span> <span class="n">n</span> <span class="ow">in</span> <span class="n">valid_column_names</span><span class="p">]</span>
+
+
+<div class="viewcode-block" id="to_geodataframe"><a class="viewcode-back" href="../../data.html#lovelyrita.data.to_geodataframe">[docs]</a><span class="k">def</span> <span class="nf">to_geodataframe</span><span class="p">(</span><span class="n">dataframe</span><span class="p">,</span> <span class="n">copy</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">drop_null_geometry</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                    <span class="n">projection</span><span class="o">=</span><span class="s1">&#39;epsg:4326&#39;</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Convert a pandas DataFrame to geopandas DataFrame.</span>
 
 <span class="sd">    Parameters</span>
