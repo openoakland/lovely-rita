@@ -41,7 +41,7 @@ Raw data should be provided in a `.csv` with the column names (in any order):
 +------------------------+
 |street_name             |
 +------------------------+
-|street_no               |
+|street_number           |
 +------------------------+
 |street_suffix           |
 +------------------------+
@@ -53,7 +53,7 @@ Raw data should be provided in a `.csv` with the column names (in any order):
 +------------------------+
 |city                    |
 +------------------------+
-|badge__                 |
+|badge_number            |
 +------------------------+
 |fine_amount             |
 +------------------------+
@@ -112,11 +112,29 @@ There is also support for storing the data to shapefiles
 Documentation
 =============
 
+Clone the gh-pages branch
+
 .. code-block:: bash
 
     git clone -b gh-pages http://github.com/openoakland/lovely-rita.git lovely-rita-docs
 
+Make changes to docs/source/*.rst in master branch.
 
+Build the docs.
+
+.. code-block:: bash
+
+    cd docs
+    make html
+
+Docs are built to ../../lovely-rita-docs/html
+
+git add -u
+git commit -m "docs message"
+git push origin gh-pages
+
+    
+    
 Tests
 =====
 
