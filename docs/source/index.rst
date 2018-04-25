@@ -3,17 +3,16 @@
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
-Welcome to Lovely Rita's documentation!
-=======================================
-
 .. image:: parking-meter-2122717_960_720.jpg
 
-`Read our Readme here <https://openoakland.github.io/lovely-rita/readme_include.html>`_
+.. include:: ../../README.rst
+
+
+API
+===
+You can learn more about our Python API from the docstrings.
 
 .. toctree::
-   :maxdepth: 2
-   :caption: Modules:
-
 
    addresses
    clean

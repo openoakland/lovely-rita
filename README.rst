@@ -1,7 +1,7 @@
 .. inclusion-marker-do-not-remove
 
 Lovely Rita: Insights from Oakland Citation Data
-------------------------------------------------
+================================================
 
 Lovely Rita is set of tools for reading, cleaning, and saving parking parking citation datasets.  The name pays homage to the song, `Lovely-Rita <https://youtu.be/vrnD1liRxWg>`_, by the Beatles. 
 
@@ -76,7 +76,7 @@ Read in the data
 .. code-block:: python
 
     from lovelyrita.data import read_data
-    citations - read_data(data_path)
+    citations = read_data(data_path)
 
 
 Clean the data
@@ -87,8 +87,8 @@ Lovely Rita can also clean and parse addresses and dates.
 
     from lovelyrita.data import read_data
     from lovelyrita.clean import clean
-    citations - read_data(data_path)
-    citations - clean(citations)
+    citations = read_data(data_path)
+    citations = clean(citations)
 
 
 Analyze the data

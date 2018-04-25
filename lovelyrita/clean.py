@@ -83,11 +83,11 @@ def infer_datetime_format(dt):
     datetime_formats = ['%m/%d/%y %H:%M:%S', '%m/%d/%y %H:%M']
     for datetime_format in datetime_formats:
         try:
-            dt = pd.to_datetime(dt[0], format=datetime_format)
+            dt = pd.to_datetime(dt.iloc[0], format=datetime_format)
             return datetime_format
         except ValueError:
             pass
-    raise Exception('No datetime format detected for {}'.format(dt))
+    raise Exception('No datetime format detected for {}'.format(dt.iloc[0]))
 
 
 def get_datetime(dataframe):

@@ -2,22 +2,30 @@ import re
 import requests
 import datetime
 from urllib.parse import urlencode
+import numpy as np
 import psycopg2
 import pandas as pd
-from lovelyrita.config import API_KEY
+from lovelyrita import config
 
 
-API_URL = "https://maps.googleapis.com/maps/api/geocode/"
+GOOGLE_API_URL = config.GOOGLE_API_URL
+GOOGLE_API_KEY = config.GOOGLE_API_KEY
+
+POSTGIS_HOST = config.POSTGIS_HOST
+POSTGIS_PORT = config.POSTGIS_PORT
+POSTGIS_USERNAME = config.POSTGIS_USERNAME
+POSTGIS_PASSWORD = config.POSTGIS_PASSWORD
+POSTGIS_DATABASE = config.POSTGIS_DATABASE
 
 
 class Geocoder(object):
-    def __init__(self, geocodes=None, api_url=API_URL, api_key=API_KEY):
+    def __init__(self, geocodes=None, api_url=GOOGLE_API_URL, api_key=GOOGLE_API_KEY):
         if geocodes is None:
             geocodes = pd.DataFrame(columns=('lat', 'lng', 'place_id', 'timestamp'))
             geocodes.index.name = 'address'
         self.geocodes = geocodes
-        self.api_url = API_URL
-        self.api_key = API_KEY
+        self.api_url = GOOGLE_API_URL
+        self.api_key = GOOGLE_API_KEY
 
     def geocode(self, address):
         """
@@ -57,21 +65,14 @@ class Geocoder(object):
         self.geocodes = self.geocodes.append(new_geocode)
         return lat, lng, place_id
 
-    @classmethod
-    def load(cls, geocode_path):
-        return cls(load_geocodes(geocode_path))
-
-    def save(self, geocode_path):
-        save_geocodes(self.geocodes, geocode_path)
-
 
 class PostGISGeocoder(object):
-    def __init__(self, host='172.17.0.3', database='postgres', user='postgres',
-                 password='mysecretpassword'):
+    def __init__(self, host=POSTGIS_HOST, port=POSTGIS_PORT, database=POSTGIS_DATABASE,
+                 user=POSTGIS_USERNAME, password=POSTGIS_PASSWORD):
         """A PostGIS geocoder
         """
         connection = psycopg2.connect(host=host, database=database,
-                                      user=user, password=password)
+                                      user=user, port=port, password=password)
         self.connection = connection
         self.cursor = connection.cursor()
 
@@ -112,12 +113,12 @@ class PostGISGeocoder(object):
 
 def geocode_citations(citations, rating=10, geocoder=None):
     """Geocode a DataFrame of citations
-    
+
     Parameters:
     -----------
-    citations : pandas DataFrame
+    citations : pandas.DataFrame
     rating : int
-    
+
     Returns:
     --------
     A DataFrame with geocoded latitude and longitude
@@ -132,15 +133,17 @@ def geocode_citations(citations, rating=10, geocoder=None):
 
     results = []
     indices = []
-    for index, row in citations.iterrows():
+    try:
+        from progressbar import progressbar
+        iterator = progressbar(citations.iterrows(), max_value=len(citations))
+    except ImportError:
+        iterator = citations.iterrows()
+
+    for index, row in iterator:
         res = geocoder.geocode(row['street'] + ', oakland, ca')
         if res['rating'] < rating:
             indices.append(index)
             results.append(res)
-        else:
-            print(res)
 
     results = pd.DataFrame(results, index=indices)
     citations.update(results)
-
-    return citations
