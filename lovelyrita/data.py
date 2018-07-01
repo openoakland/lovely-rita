@@ -14,6 +14,8 @@ def read_data(paths, usecols=None, delimiter=',', clean=False):
     ----------
     paths : list
         A list of file paths to the data to be loaded
+    usecols : list of str
+        If provided, only load these columns
     dtype : dict
         A dict containing key (column name) and value (data type)
     delimiter : str
