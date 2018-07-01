@@ -125,11 +125,13 @@ def drop_null(dataframe, inplace=True):
     -------
     If `inplace` is False, returns the input dataframe with the null citations removed.
     """
+    if not inplace:
+        dataframe = dataframe.copy()
+
     null_indices = dataframe.ticket_number.isnull()
-    if inplace:
-        dataframe.drop(null_indices, inplace=True)
-    else:
-        return dataframe.drop(null_indices, inplace=False)
+    dataframe = dataframe[~null_indices]
+    if not inplace:
+        return dataframe
 
 
 def clean_voided(dataframe, add_indicator=True):
