@@ -59,7 +59,7 @@ def parse_123_main_street(addresses):
     A DataFrame containing street name and street column for those rows that were successfully 
     parsed
     """
-    patt = re.compile(r'^(?P<street_no>\d+\-?\d?) (?P<street_name>[\w\d\s]+)')
+    patt = re.compile(r'^(?P<street_number>\d+\-?\d?) (?P<street_name>[\w\d\s]+)')
 
     street = addresses.str.extract(patt, expand=True)
     street.dropna(inplace=True)
@@ -127,22 +127,3 @@ def parse_addresses(addresses):
     street.update(new_street)
 
     return street
-
-
-def clean_street_suffixes(street):
-    import numpy as np
-    import difflib
-
-    candidates = ['AVENUE', 'DRIVE', 'BLOCK', 'PLACE', 'STREET']
-
-    def get_suffix_match(s):
-        if isinstance(s, np.float):
-            return
-        match = difflib.get_close_matches(s, candidates, n=1, cutoff=0.81)
-        if len(match) == 1:
-            return match[0]
-        else:
-            return
-    street = street.street_suffix.apply(get_suffix_match)
-
-    return street[~pd.isnull(street)]
