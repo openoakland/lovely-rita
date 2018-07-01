@@ -37,7 +37,7 @@ Raw data should be provided in a `.csv` with the column names (in any order):
 +------------------------+
 |ticket_issue_time       |
 +------------------------+
-|street_name             |
+|street                  |
 +------------------------+
 |street_name             |
 +------------------------+
