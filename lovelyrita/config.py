@@ -17,7 +17,8 @@ if not op.exists(CONFIG_DIRECTORY):
 CONFIG_PATH = op.join(CONFIG_DIRECTORY, 'options.json')
 
 if not op.exists(CONFIG_PATH):
-    json.dump({}, CONFIG_PATH)
+    with open(CONFIG_PATH, 'w') as f:
+        json.dump({}, f)
 
 with open(CONFIG_PATH, 'r') as f:
     user_config = json.load(f)
@@ -34,3 +35,5 @@ POSTGIS_USERNAME = config.get('POSTGIS_USERNAME', 'postgres')
 POSTGIS_PASSWORD = config.get('POSTGIS_PASSWORD', '')
 
 VALID_COLUMN_NAMES = config.get('VALID_COLUMN_NAMES', [])
+
+DATETIME_FORMATS = ['%m/%d/%y %H:%M:%S', '%m/%d/%y %H:%M', '%Y-%m-%d %H:%M']

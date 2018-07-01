@@ -3,14 +3,16 @@ from datetime import datetime
 import numpy as np
 import pandas as pd
 from lovelyrita.addresses import parse_addresses, replace
+from lovelyrita.config import DATETIME_FORMATS
 
 
-def impute_missing_times(datetimes):
+def impute_missing_times(datetimes, inplace=True):
     """Fill in missing times by interpolating surrounding times
 
     Parameters
     ----------
     datetimes : pandas.Series
+    inplace : bool
 
     Returns
     -------
@@ -18,6 +20,10 @@ def impute_missing_times(datetimes):
     """
 
     # get valid start and stop indices for null ranges
+
+    if not inplace:
+        datetimes = datetimes.copy()
+
     n_rows = len(datetimes)
 
     null_indices = datetimes.isnull().nonzero()[0]
@@ -47,7 +53,8 @@ def impute_missing_times(datetimes):
         for i, j in enumerate(range(valid_start + 1, valid_end)):
             datetimes.iloc[j] = interpolated_datetimes[i]
 
-    return datetimes
+    if not inplace:
+        return datetimes
 
 
 def find_dollar_columns(dataframe, nrows=100):
@@ -69,7 +76,7 @@ def convert_dollar_to_float(dollars):
     return dollars.replace('\$', '', regex=True).astype('float32')
 
 
-def infer_datetime_format(dt):
+def infer_datetime_format(dt, datetime_formats=DATETIME_FORMATS):
     """Infer the datetime format for a Series
 
     Parameters
@@ -80,7 +87,6 @@ def infer_datetime_format(dt):
     -------
     The datetime format as a string
     """
-    datetime_formats = ['%m/%d/%y %H:%M:%S', '%m/%d/%y %H:%M']
     for datetime_format in datetime_formats:
         try:
             dt = pd.to_datetime(dt.iloc[0], format=datetime_format)
