@@ -111,7 +111,8 @@ def parse_addresses(addresses):
     A DataFrame containing street name and street column for those rows that were successfully 
     parsed
     """
-    # Many addresses are in parking lots. Those will not have street numbers, so we should treat them separately. We will only concern ourselves with potential street addresses.
+    # Many addresses are in parking lots. Those will not have street numbers, so we should treat 
+    # them separately. We will only concern ourselves with potential street addresses.
 
     lot_indices = addresses.str.contains('^[A-Z]LOT.*LOT$')
     street_addresses = addresses.loc[~lot_indices]
