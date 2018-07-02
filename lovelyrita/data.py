@@ -33,8 +33,7 @@ def read_data(paths, usecols=None, delimiter=',', clean=False):
         if usecols is None:
             usecols = get_column_names(path)
 
-        df = pd.read_csv(path, dtype='str', usecols=usecols,
-                         delimiter=delimiter)
+        df = pd.read_csv(path, usecols=usecols, delimiter=delimiter)
 
         df['street'] = df['street'].str.strip(' ')
 

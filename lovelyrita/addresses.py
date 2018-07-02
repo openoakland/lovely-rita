@@ -7,7 +7,8 @@ REPLACEMENTS = [(r'^ONE ', '1 '),
                 (r'^TWO ', '2 '),
                 (' -', '-'),
                 (r' TERM$', ' TERMINAL'),
-                (r'^#', '')]
+                (r'^#', ''),
+                (r'\bB{1,2}LK{1,2}\s?', '')]
 
 
 VALID_SUFFIXES = ['AVE', 'AVEN', 'BLOCK', 'BLVD', 'BOULEVARD', 'CIR', 'COURT',
