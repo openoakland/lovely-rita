@@ -2,7 +2,7 @@ import time
 from datetime import datetime
 import numpy as np
 import pandas as pd
-from lovelyrita.addresses import parse_addresses, replace
+from lovelyrita.addresses import replace
 from lovelyrita.config import DATETIME_FORMATS
 
 
@@ -144,7 +144,7 @@ def drop_null(dataframe, inplace=True):
         dataframe = dataframe.copy()
 
     null_indices = dataframe.ticket_number.isnull()
-    dataframe = dataframe[~null_indices]
+    dataframe.drop(index=dataframe.index[null_indices], inplace=True)
     if not inplace:
         return dataframe
 
