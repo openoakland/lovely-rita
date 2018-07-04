@@ -59,7 +59,12 @@ def get_column_names(path, valid_column_names=valid_column_names):
     -------
     """
     column_names = pd.read_csv(path, nrows=1)
-    return [n for n in column_names if n in valid_column_names]
+    if valid_column_names is not None:
+        column_names = [n for n in column_names if n in valid_column_names]
+    else:
+        column_names = [n for n in column_names]
+
+    return column_names
 
 
 def to_geodataframe(dataframe, copy=False, drop_null_geometry=True,
