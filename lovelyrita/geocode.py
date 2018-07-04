@@ -111,7 +111,7 @@ class PostGISGeocoder(object):
         return result
 
 
-def geocode_citations(citations, rating=10, geocoder=None):
+def geocode_citations(citations, geocoder=None):
     """Geocode a DataFrame of citations
 
     Parameters:
@@ -121,13 +121,9 @@ def geocode_citations(citations, rating=10, geocoder=None):
 
     Returns:
     --------
-    A DataFrame with geocoded latitude and longitude
+    A DataFrame with the results of geocoding including columns:
+    ['rating', 'longitude', 'latitude', 'street_number', 'street_name', 'street_suffix']
     """
-    if 'latitude' not in citations.columns:
-        citations['latitude'] = np.nan
-    if 'longitude' not in citations.columns:
-        citations['longitude'] = np.nan
-
     if geocoder is None:
         geocoder = PostGISGeocoder()
 
@@ -140,10 +136,9 @@ def geocode_citations(citations, rating=10, geocoder=None):
         iterator = citations.iterrows()
 
     for index, row in iterator:
-        res = geocoder.geocode(row['street'] + ', oakland, ca')
-        if res['rating'] < rating:
-            indices.append(index)
-            results.append(res)
+        address = ', '.join(row[['street', 'city', 'state']])
+        result = geocoder.geocode(address)
+        indices.append(index)
+        results.append(result)
 
-    results = pd.DataFrame(results, index=indices)
-    citations.update(results)
+    return pd.DataFrame(results, index=indices)
